@@ -2,19 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-1.0.4.min.css" type="text/css" />
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-1.0.4.min.js"></script>
+    
     <title>DEMOGRAPHICS</title>
 
-    <!--link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"
-    
-    테스트화면
-    -->
 </head>
 <body>
     <from action = "https://localhost:5000/test1" methods="get">
-        <p>123</p>
-        <p><input type="range" name="testRange"/></p>
+        <p> 통계화면!! </p>
+
+
+        <p>나이를 입력하세요! </br><input type="text" name="testRange"/></p>
+
     </from>
     <h1>demographics</h1>
-    <h3>인구통계</h3>
+    <h3>인구통계 테스트</h3>
+    <div id = "test_plot"> 그림이 그려지는 자리 </div>
+    <script>
+        fetch('/bokeh_json_item').then(function(response) { return response.json(); }).then(function(item) { Bokeh.embed.embed_item(item); })
+        fetch('/demo_plot').then(function(response) {return response.json();}).then(function(item){Bokeh.embed.embed_item(item);}) 
+    </script>
 </body>
 </html>
