@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://cdn.bokeh.org/bokeh/release/bokeh-3.1.0.min.js"></script>
+
+</head>
+<body>
+  <div id="myplot">0</div>
+  <div id="layout">1</div>
+  <script>
+  fetch('/test_example')
+    .then(function(response) { return response.json(); })
+    .then(function(item) { return Bokeh.embed.embed_item(item); })
+  fetch('/graph_example')
+    .then(function(response) { return response.json(); })
+    .then(function(item) { return Bokeh.embed.embed_item(item); })
+  </script>
+  </script>
+</body>
