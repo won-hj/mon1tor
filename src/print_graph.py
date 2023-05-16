@@ -15,12 +15,17 @@ def get_files(path):
     dir_list = os.listdir(path)
     return (dir_list[:-1])
 
+# 1. 지금 디버그툴 깔려있지 않아서 적절한 것을 찾아야 한다.
 
+# 딕셔너리에 {년도:데이터리스트} 로 저장
 def get_csv():
-    f = (get_files('../tool'))
-    print(f, len(f))
-    '''   
-    with open('./tool/2013data.csv', encoding='UTF-8') as f:        # csv모듈의 reader함수를 이용해 csv파일을 읽어들여 각 행을 구분
+    location = '../tool/'
+    file = get_files(location)
+    set_figure = {} 
+    
+
+    for i in range(len(file)):
+        with open (location+file[i], encoding='UTF-8') as f:
             reader = csv.reader(f)
             birth_death_data = []
             age_data = []
@@ -31,7 +36,10 @@ def get_csv():
                     birth_death_data.append(row)
                 elif row[0] == '생산가능인구(15-64)' or row[0] == '고령인구(65-)':
                     age_data.append(row)
-    '''
+                set_figure[file[i]] = [birth_death_data, age_data]
+    return set_figure
+    
 if __name__ == "__main__":
     get_csv()
+    print(get_csv())
     
