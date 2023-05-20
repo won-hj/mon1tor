@@ -9,6 +9,8 @@ import logging
 
 '''
     path 경로의 파일들을 리스트나 개수로 반환
+    option 0 : 파일 리스트 반환
+           1 : 파일 개수 반환
 '''
 def get_files(path, option=0):
     import os
