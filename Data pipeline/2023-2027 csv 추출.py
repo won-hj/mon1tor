@@ -18,6 +18,14 @@ def create_yearly_data(start_year, end_year): #return df with columns
     data = pd.DataFrame({'Year': years, 'Birth': [0] * len(years), 'Death': [0] * len(years)})
     return data
 
+def fill_predicted_data(data, years, births, deaths): #return 데이터프레임을 위한 columndata들
+    data.loc[data['Year'].isin(years), 'Birth'] = births
+    data.loc[data['Year'].isin(years), 'Death'] = deaths
+    return data
+
+def extract_data_to_csv(data, file_path): #데이터프레임을 csv로 추출
+    data.to_csv(file_path, index=False)
+
 start_year = 2023
 end_year = 2027
 
@@ -32,3 +40,7 @@ forecast_births = predict_future_data(m_births, future_dates)
 forecast_deaths = predict_future_data(m_deaths, future_dates)
 
 data = create_yearly_data(start_year, end_year)
+
+data = fill_predicted_data(data, range(start_year, end_year + 1), forecast_births, forecast_deaths)
+
+extract_data_to_csv(data, './tool/2023-2027data.csv')
