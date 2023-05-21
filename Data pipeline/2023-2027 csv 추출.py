@@ -9,7 +9,12 @@ def fit_prophet_model(data):    #5개년 예측 return 예측model
     model.fit(data)
     return model
 
+start_year = 2023
+end_year = 2027
+
 predicted_data = load_original_data('./tool/first_data.csv')
 
 m_births = fit_prophet_model(predicted_data[['year', 'births']].rename(columns={'year': 'ds', 'births': 'y'}))
 m_deaths = fit_prophet_model(predicted_data[['year', 'deaths']].rename(columns={'year': 'ds', 'deaths': 'y'}))
+
+future_dates = pd.date_range(start=str(start_year - 1), end=str(end_year + 1), freq='Y')
