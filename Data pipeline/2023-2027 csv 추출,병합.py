@@ -1,5 +1,6 @@
 import pandas as pd
 from prophet import Prophet
+import os
 
 def load_original_data(file_path): #return 기존 csv 경로
     return pd.read_csv(file_path)
@@ -54,3 +55,5 @@ first_data = pd.read_csv('../tool/first_data.csv')
 new_data = pd.read_csv('../tool/2023-2027data.csv')
 
 combine_data('../tool/first_data.csv', '../tool/2023-2027data.csv', '../tool/second_data.csv')
+
+os.remove('../tool/2023-2027data.csv')
