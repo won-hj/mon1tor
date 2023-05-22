@@ -15,21 +15,27 @@ def predict_future_data(model, future_dates): #return 5개년에 대한 예측 v
 
 def create_yearly_data(start_year, end_year): #return df with columns
     years = range(start_year, end_year + 1)
-    data = pd.DataFrame({'Year': years, 'Birth': [0] * len(years), 'Death': [0] * len(years)})
+    data = pd.DataFrame({'year': years, 'births': [0] * len(years), 'deaths': [0] * len(years)})
     return data
 
 def fill_predicted_data(data, years, births, deaths): #return 데이터프레임을 위한 columndata들
-    data.loc[data['Year'].isin(years), 'Birth'] = births
-    data.loc[data['Year'].isin(years), 'Death'] = deaths
+    data.loc[data['year'].isin(years), 'births'] = births
+    data.loc[data['year'].isin(years), 'deaths'] = deaths
     return data
 
 def extract_data_to_csv(data, file_path): #데이터프레임을 csv로 추출
     data.to_csv(file_path, index=False)
 
+def combine_data(first_data_path, new_data_path, combined_data_path): #추출한 data와 병합 
+    first_data = pd.read_csv(first_data_path)
+    new_data = pd.read_csv(new_data_path)
+    combined_data = pd.concat([first_data, new_data], ignore_index=True)
+    combined_data.to_csv(combined_data_path, index=False)
+
 start_year = 2023
 end_year = 2027
 
-predicted_data = load_original_data('./tool/first_data.csv')
+predicted_data = load_original_data('../tool/first_data.csv')
 
 m_births = fit_prophet_model(predicted_data[['year', 'births']].rename(columns={'year': 'ds', 'births': 'y'}))
 m_deaths = fit_prophet_model(predicted_data[['year', 'deaths']].rename(columns={'year': 'ds', 'deaths': 'y'}))
@@ -40,7 +46,11 @@ forecast_births = predict_future_data(m_births, future_dates)
 forecast_deaths = predict_future_data(m_deaths, future_dates)
 
 data = create_yearly_data(start_year, end_year)
-
 data = fill_predicted_data(data, range(start_year, end_year + 1), forecast_births, forecast_deaths)
 
-extract_data_to_csv(data, './tool/2023-2027data.csv')
+extract_data_to_csv(data, '../tool/2023-2027data.csv')
+
+first_data = pd.read_csv('../tool/first_data.csv')
+new_data = pd.read_csv('../tool/2023-2027data.csv')
+
+combine_data('../tool/first_data.csv', '../tool/2023-2027data.csv', '../tool/second_data.csv')
