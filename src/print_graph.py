@@ -16,24 +16,23 @@ import os
 def get_files(path, option=0):
     dir_list = path 
     if option == 0:
-        return (dir_list[:-1])
+        return os.listdir(dir_list)[:-1]
     else:
-        return len(dir_list[:-1])
+        return len(os.listdir(dir_list)[:-1])
 
 def get_location():
     cwd = os.getcwd()
-    path = os.path.join(cwd, '/../tool ')
+    path = os.path.join(cwd, '.\\tool\\')
     return path
 
 # 딕셔너리에 {년도:데이터리스트} 로 저장
 def get_csv():
     file = get_files(get_location(), 0)
 
-    print(file, 'file') #출력용???
     set_figure = {} 
     
     for i in range(len(file)): 
-        with open ('./tool/'+ str(2013+i) +'data.csv', encoding='UTF-8') as f:
+        with open (get_location()+ str(2013+i) +'data.csv', encoding='UTF-8') as f:
             reader = csv.reader(f)
             birth_death_data = []
             age_data = []
@@ -48,5 +47,43 @@ def get_csv():
     
     return set_figure
     
+'''
+def test_location():
+    return '../tool/'
+테스트할땐 경로 ./tool로 변경
+'''
+
+def test_csv():
+    file = get_files('../tool/', 0)
+    #print(len(file))
+    set_figure = {} 
+    
+    for i in range(len(file)): 
+        with open ('../tool/'+ str(2013+i) +'data.csv', encoding='UTF-8') as f:
+            reader = csv.reader(f)
+            birth_death_data = []
+            age_data = []
+            for row in reader:
+                if len(row) == 0 or row[0][0] == '#':
+                    continue
+                if row[0] == '출생아수' or row[0] == '사망자수':
+                    birth_death_data.append(row)
+                elif row[0] == '생산가능인구(15-64)' or row[0] == '고령인구(65-)':
+                    age_data.append(row)
+                set_figure[file[i]] = [birth_death_data, age_data]
+
+    return set_figure
+
 if __name__ == "__main__":
-    get_csv()
+    print(list(test_csv().values())[0][0])
+    print(list(test_csv().values())[0][1])
+    #print(test_csv().values())
+    #print(get_files(test_location(), 0))
+    '''
+    ['2013data.csv', '2014data.csv', '2015data.csv', '2016data.csv', '2017data.csv', 
+    '2018data.csv', '2019data.csv', '2020data.csv', '2021data.csv', '2022data.csv', 'CSV']
+    -> ['2013data.csv', '2014data.csv', '2015data.csv', '2016data.csv', '2017data.csv', 
+    '2018data.csv', '2019data.csv', '2020data.csv', '2021data.csv', '2022data.csv']
+
+    '''
+    #print(get_files('../tool/', 0))
