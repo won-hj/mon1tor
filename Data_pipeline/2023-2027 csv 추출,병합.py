@@ -10,11 +10,11 @@ def fit_prophet_model(data):    #return prophet 예측 model
     model.fit(data)
     return model
 
-def predict_birth_future_data(model, future_dates): #return 5개년에 대한 예측 value
+def predict_birth_future_data(model, future_dates): #return 5개년에 대한 예측 upper_value
     forecast = model.predict(pd.DataFrame({'ds': future_dates}))
     return forecast['yhat_upper'].astype(int)
 
-def predict_death_future_data(model, future_dates):
+def predict_death_future_data(model, future_dates): #return 5개년에 대한 예측 value
     forecast = model.predict(pd.DataFrame({'ds': future_dates}))
     return forecast['yhat'].astype(int)
 
