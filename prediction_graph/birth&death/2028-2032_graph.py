@@ -67,7 +67,7 @@ class ForecastPlotter:
 
         show(p)
 
-data = pd.read_csv('../tool/birth&death_data/-2027data.csv')
+data = pd.read_csv('../../tool/birth&death_data/-2027data.csv')
 
 forecast_plotter = ForecastPlotter(data, ['births', 'deaths'], '2028-2032')
 forecast_plotter.plot()
