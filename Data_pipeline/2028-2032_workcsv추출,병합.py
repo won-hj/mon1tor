@@ -5,8 +5,13 @@ import os
 def load_original_data(file_path): #return 기존 csv 경로
     return pd.read_csv(file_path)
 
-def fit_prophet_model(data):    #return prophet 예측 model
-    model = Prophet(changepoint_prior_scale=0.1, seasonality_mode='multiplicative', yearly_seasonality=5)
+def fit_prophet_work_model(data):    #return work_demo prophet 예측 model
+    model = Prophet(changepoint_prior_scale=0.5, seasonality_mode='multiplicative', yearly_seasonality=5)
+    model.fit(data)
+    return model
+
+def fit_prophet_nonwork_model(data):    #return nonwork_demo prophet 예측 model
+    model = Prophet(changepoint_prior_scale=0.05, seasonality_mode='multiplicative', yearly_seasonality=5)
     model.fit(data)
     return model
 
@@ -38,8 +43,8 @@ end_year = 2032
 
 predicted_data = load_original_data('../tool/work&nonwork_data/-2027_data.csv')
 
-m_works = fit_prophet_model(predicted_data[['Year', 'work_demo']].rename(columns={'Year': 'ds', 'work_demo': 'y'}))
-m_non_works = fit_prophet_model(predicted_data[['Year', 'nonwork_demo']].rename(columns={'Year': 'ds', 'nonwork_demo': 'y'}))
+m_works = fit_prophet_work_model(predicted_data[['Year', 'work_demo']].rename(columns={'Year': 'ds', 'work_demo': 'y'}))
+m_non_works = fit_prophet_nonwork_model(predicted_data[['Year', 'nonwork_demo']].rename(columns={'Year': 'ds', 'nonwork_demo': 'y'}))
 
 future_dates = pd.date_range(start=str(start_year - 1), end=str(end_year + 1), freq='Y')
 
