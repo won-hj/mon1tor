@@ -32,6 +32,7 @@ def get_csv():
     set_figure = {} 
     
     for i in range(len(file)): 
+
         with open (get_location()+ str(2013+i) +'data.csv', encoding='UTF-8') as f:
             reader = csv.reader(f)
             birth_death_data = []
@@ -86,4 +87,8 @@ if __name__ == "__main__":
     '2018data.csv', '2019data.csv', '2020data.csv', '2021data.csv', '2022data.csv']
 
     '''
+<<<<<<< HEAD
     #print(get_files('../tool/', 0))
+=======
+    #print(get_files('../tool/', 0))
+>>>>>>> b86282b076e0319ab97966a988e57f494c429232

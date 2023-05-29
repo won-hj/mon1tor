@@ -20,12 +20,14 @@ def hello():
     return render_template('index.html')
 
 @app.route('/graph_example')
+
 def graph_example():
     from src import PrintGraph as g #ImportError: attempted relative import with no known parent package 
 
     csv = g.get_csv()
     file_length = g.get_files(g.get_location(), 1)
     plot_list = []
+
     xformatter = NumeralTickFormatter(format="0,0") # x축 1000단위 ,형식 제공
 
     for i in range(1, file_length):
@@ -41,6 +43,11 @@ def graph_example():
         globals()['p{}'.format(i)].add_tools(HoverTool(tooltips=[("Type", "@Type"), ("Value", "@value")]))
         plot_list.append(globals()['p{}'.format(i)]) 
 
+<<<<<<< HEAD
+=======
+        
+        '''
+>>>>>>> b86282b076e0319ab97966a988e57f494c429232
     layout = gridplot([plot_list])
 
     return json.dumps(json_item(layout, 'layout'))
