@@ -25,7 +25,7 @@ def create_graph(df, columns_titles_colors, description): #girdplot 구성과 �
     show(l)
 
 
-df = pd.read_csv('../tool/work&nonwork_data/-2022_data.csv')
+df = pd.read_csv('../tool/work&nonwork_data/2013-2022_data.csv')
 df['Year'] = df['Year'].astype(str) 
 
 columns_titles_colors = [
