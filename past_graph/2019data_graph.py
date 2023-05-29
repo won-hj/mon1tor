@@ -26,7 +26,7 @@ import csv
 from bokeh.models import BasicTickFormatter, NumeralTickFormatter
 from bokeh.layouts import gridplot
 
-with open('../tool/2019data.csv') as f:        # csv모듈의 reader함수를 이용해 csv파일을 읽어들여 각 행을 구분
+with open('../tool/birth&death_data/2019data.csv') as f:        # csv모듈의 reader함수를 이용해 csv파일을 읽어들여 각 행을 구분
     reader = csv.reader(f)
     birth_death_data = []
     age_data = []
