@@ -26,7 +26,7 @@ import csv
 from bokeh.models import BasicTickFormatter, NumeralTickFormatter
 from bokeh.layouts import gridplot
 
-with open('../tool/2014data.csv') as f:        # csv모듈의 reader함수를 이용해 csv파일을 읽어들여 각 행을 구분
+with open('../tool/birth&death_data/2021data.csv') as f:        # csv모듈의 reader함수를 이용해 csv파일을 읽어들여 각 행을 구분
     reader = csv.reader(f)
     birth_death_data = []
     age_data = []
@@ -45,13 +45,13 @@ birth_death_source = ColumnDataSource(birth_death_df) #bokeh에서 지원하는 
 age_source = ColumnDataSource(age_df)
 
 xformatter = NumeralTickFormatter(format="0,0") # x축 1000단위 ,형식 제공
-p1 = figure(y_range=birth_death_df['type'], title=Title(text="2014년 출생아 수 사망자 수", align="center", text_font_size="22px", text_font="Consolas", text_font_style="bold"), height=500, width=500)
+p1 = figure(y_range=birth_death_df['type'], title=Title(text="2021년 출생아 수 사망자 수", align="center", text_font_size="22px", text_font="Consolas", text_font_style="bold"), height=500, width=500)
 p1.hbar(y='type', right='value', height=0.3, color=Spectral4[1], source=birth_death_source) #첫번째 가로 막대 그래프
 p1.xaxis.formatter = NumeralTickFormatter(format="0,0")
 p1.xaxis.formatter = xformatter
 p1.add_tools(HoverTool(tooltips=[("Type", "@type"), ("Value", "@value")])) # 마우스를 갖다대면 type과 value를 시각화
 
-p2 = figure(y_range=age_df['type'], title=Title(text="2014년 생산가능 인구와 \n고령인구 수(단위 : 백 명)", align="center", text_font_size="22px", text_font="Consolas", text_font_style="bold"), height=500, width=500)
+p2 = figure(y_range=age_df['type'], title=Title(text="2021년 생산가능 인구와 \n고령인구 수(단위 : 백 명)", align="center", text_font_size="22px", text_font="Consolas", text_font_style="bold"), height=500, width=500)
 p2.hbar(y='type', right='value', height=0.3, color=Spectral4[2], source=age_source)
 p2.xaxis.formatter = NumeralTickFormatter(format="0,0")
 p2.xaxis.formatter = xformatter
@@ -60,6 +60,3 @@ p2.add_tools(HoverTool(tooltips=[("Type", "@type"), ("Value", "@value")])) #p1�
 layout = gridplot([[p1, p2]])
 
 show(layout)
-# -
-
-
