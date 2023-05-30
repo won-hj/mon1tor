@@ -7,18 +7,12 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>장래인구추계 - SB Admin</title>
+
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="css/styles.css" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-3.1.0.min.css" type="text/css" />
         <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-3.1.0.min.js"></script>
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    </head>
-    <body class="sb-nav-fixed"> <!--속성Attributes, class="---"-->
-        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="index.html">MON2TOR</a>
-            <!-- <a>요소, 텍스트를 감싸서 하이퍼링크로 만들었다. 
-                href로 연결하고자 하는 웹 주소를 지정, title로 링크에 대한 추가정보, target으로 링크가 열리는 형식 지정-->
+
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
@@ -37,6 +31,7 @@
                         <li><a class="dropdown-item" href="#!">로그인</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <li><a class="dropdown-item" href="#!">로그아웃</a></li>
+
                     </ul>
                 </li>
             </ul>
@@ -76,6 +71,7 @@
                                     </a>
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
+
                                             <a class="nav-link" href="login.html">로그인</a>
                                             <a class="nav-link" href="register.html">회원가입</a>
                                             <a class="nav-link" href="password.html">비밀번호 찾기</a>
@@ -83,6 +79,14 @@
                                     </div>
                                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
                                         임시 페이지
+
+                                            <a class="nav-link" href="login.html">Login</a>
+                                            <a class="nav-link" href="register.html">Register</a>
+                                            <a class="nav-link" href="password.html">Forgot Password</a>
+                                        </nav>
+                                    </div>
+                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+                                        Error
                                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                     </a>
                                     <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
@@ -102,6 +106,7 @@
                             <a class="nav-link" href="tables.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 테이블
+
                             </a>
                         </div>
                     </div>
@@ -114,6 +119,7 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
+
                         <h1 class="mt-4">장래인구추계</h1> <!--왼쪽 상단 대문-->
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item active">인구추계</li>
@@ -191,163 +197,262 @@
                                 <table id="datatablesSimple">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
+                                            <th>인구종류별</th>
+                                            <th>2030</th>
+                                            <th>2040</th>
+                                            <th>2050</th>
+                                            <th>2060</th>
+                                            <th>2070</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
+                                            <th>인구종류별</th>
+                                            <th>2030</th>
+                                            <th>2040</th>
+                                            <th>2050</th>
+                                            <th>2060</th>
+                                            <th>2070</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
                                         <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>$320,800</td>
+                                            <td>생산연령인구:15~64세
+                                            </td>
+                                            <td>33813
+                                            </td>
+                                            <td>28521
+                                            </td>
+                                            <td>24189</td>
+                                            <td>20660
+                                            </td>
+                                            <td>17368
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>Garrett Winters</td>
-                                            <td>Accountant</td>
-                                            <td>Tokyo</td>
-                                            <td>63</td>
-                                            <td>2011/07/25</td>
-                                            <td>$170,750</td>
+                                            <td>생산연령인구:15-24세
+                                            </td>
+                                            <td>4649
+                                            </td>
+                                            <td>3122
+                                            </td>
+                                            <td>3063
+                                            </td>
+                                            <td>3037
+                                            </td>
+                                            <td>2511
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>Ashton Cox</td>
-                                            <td>Junior Technical Author</td>
-                                            <td>San Francisco</td>
-                                            <td>66</td>
-                                            <td>2009/01/12</td>
-                                            <td>$86,000</td>
+                                            <td>생산연령인구:25-49세
+                                            </td>
+                                            <td>16787
+                                            </td>
+                                            <td>14563
+                                            </td>
+                                            <td>10944
+                                            </td>
+                                            <td>9148
+                                            </td>
+                                            <td>8030
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>Cedric Kelly</td>
-                                            <td>Senior Javascript Developer</td>
-                                            <td>Edinburgh</td>
-                                            <td>22</td>
-                                            <td>2012/03/29</td>
-                                            <td>$433,060</td>
+                                            <td>생산연령인구:50-64세
+                                            </td>
+                                            <td>12377
+                                            </td>
+                                            <td>10836
+                                            </td>
+                                            <td>10183
+                                            </td>
+                                            <td>8475
+                                            </td>
+                                            <td>6826
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>Airi Satou</td>
-                                            <td>Accountant</td>
-                                            <td>Tokyo</td>
-                                            <td>33</td>
-                                            <td>2008/11/28</td>
-                                            <td>$162,700</td>
+                                            <td>구성비(%):15-24세
+                                            </td>
+                                            <td>9.1
+                                            </td>
+                                            <td>6.2
+                                            </td>
+                                            <td>6.5
+                                            </td>
+                                            <td>7.1
+                                            </td>
+                                            <td>6.7
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>Brielle Williamson</td>
-                                            <td>Integration Specialist</td>
-                                            <td>New York</td>
-                                            <td>61</td>
-                                            <td>2012/12/02</td>
-                                            <td>$372,000</td>
+                                            <td>구성비(%):25-49세
+                                            </td>
+                                            <td>32.8
+                                            </td>
+                                            <td>29
+                                            </td>
+                                            <td>23.1
+                                            </td>
+                                            <td>21.5
+                                            </td>
+                                            <td>21.3
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>Herrod Chandler</td>
-                                            <td>Sales Assistant</td>
-                                            <td>San Francisco</td>
-                                            <td>59</td>
-                                            <td>2012/08/06</td>
-                                            <td>$137,500</td>
+                                            <td>구성비(%):50-64세
+                                            </td>
+                                            <td>24.2
+                                            </td>
+                                            <td>21.6
+                                            </td>
+                                            <td>21.5
+                                            </td>
+                                            <td>19.9
+                                            </td>
+                                            <td>18.1
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>Rhona Davidson</td>
-                                            <td>Integration Specialist</td>
-                                            <td>Tokyo</td>
-                                            <td>55</td>
-                                            <td>2010/10/14</td>
-                                            <td>$327,900</td>
+                                            <td>고령인구:65세+
+                                            </td>
+                                            <td>13056
+                                            </td>
+                                            <td>17245
+                                            </td>
+                                            <td>19004
+                                            </td>
+                                            <td>18683
+                                            </td>
+                                            <td>17473
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>Colleen Hurst</td>
-                                            <td>Javascript Developer</td>
-                                            <td>San Francisco</td>
-                                            <td>39</td>
-                                            <td>2009/09/15</td>
-                                            <td>$205,500</td>
+                                            <td>고령인구:65-69세
+                                            </td>
+                                            <td>4027
+                                            </td>
+                                            <td>4172
+                                            </td>
+                                            <td>3709
+                                            </td>
+                                            <td>3500
+                                            </td>
+                                            <td>2614</td>
                                         </tr>
                                         <tr>
-                                            <td>Sonya Frost</td>
-                                            <td>Software Engineer</td>
-                                            <td>Edinburgh</td>
-                                            <td>23</td>
-                                            <td>2008/12/13</td>
-                                            <td>$103,600</td>
+                                            <td>고령인구:70세+
+                                            </td>
+                                            <td>9029
+                                            </td>
+                                            <td>13073
+                                            </td>
+                                            <td>15295
+                                            </td>
+                                            <td>15183
+                                            </td>
+                                            <td>14858
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>Jena Gaines</td>
-                                            <td>Office Manager</td>
-                                            <td>London</td>
-                                            <td>30</td>
-                                            <td>2008/12/19</td>
-                                            <td>$90,560</td>
+                                            <td>고령인구:75세+
+                                            </td>
+                                            <td>5497
+                                            </td>
+                                            <td>9093
+                                            </td>
+                                            <td>11676
+                                            </td>
+                                            <td>12084
+                                            </td>
+                                            <td>11571
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>Quinn Flynn</td>
-                                            <td>Support Lead</td>
-                                            <td>Edinburgh</td>
-                                            <td>22</td>
-                                            <td>2013/03/03</td>
-                                            <td>$342,000</td>
+                                            <td>고령인구:80세+
+                                            </td>
+                                            <td>3144
+                                            </td>
+                                            <td>5439
+                                            </td>
+                                            <td>7804
+                                            </td>
+                                            <td>8585
+                                            </td>
+                                            <td>8223
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>Charde Marshall</td>
-                                            <td>Regional Director</td>
-                                            <td>San Francisco</td>
-                                            <td>36</td>
-                                            <td>2008/10/16</td>
-                                            <td>$470,600</td>
+                                            <td>고령인구:85세+
+                                            </td>
+                                            <td>1576</td>
+                                            <td>2528
+                                            </td>
+                                            <td>4408
+                                            </td>
+                                            <td>5406
+                                            </td>
+                                            <td>5436
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>Haley Kennedy</td>
-                                            <td>Senior Marketing Designer</td>
-                                            <td>London</td>
-                                            <td>43</td>
-                                            <td>2012/12/18</td>
-                                            <td>$313,500</td>
+                                            <td>구성비(%):65세+
+                                            </td>
+                                            <td>25.5
+                                            </td>
+                                            <td>34.4
+                                            </td>
+                                            <td>40.1
+                                            </td>
+                                            <td>43.8
+                                            </td>
+                                            <td>46.4
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>Tatyana Fitzpatrick</td>
-                                            <td>Regional Director</td>
-                                            <td>London</td>
-                                            <td>19</td>
-                                            <td>2010/03/17</td>
-                                            <td>$385,750</td>
+                                            <td>구성비(%):65-69세
+                                            </td>
+                                            <td>7.9</td>
+                                            <td>8.3
+                                            </td>
+                                            <td>7.8
+                                            </td>
+                                            <td>8.2
+                                            </td>
+                                            <td>6.9
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>Michael Silva</td>
-                                            <td>Marketing Designer</td>
-                                            <td>London</td>
-                                            <td>66</td>
-                                            <td>2012/11/27</td>
-                                            <td>$198,500</td>
+                                            <td>구성비(%):70세+
+                                            </td>
+                                            <td>17.6
+                                            </td>
+                                            <td>26
+                                            </td>
+                                            <td>32.3
+                                            </td>
+                                            <td>35.6
+                                            </td>
+                                            <td>39.5
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>Paul Byrd</td>
-                                            <td>Chief Financial Officer (CFO)</td>
-                                            <td>New York</td>
-                                            <td>64</td>
-                                            <td>2010/06/09</td>
-                                            <td>$725,000</td>
-                                        </tr>
+                                            <td>구성비(%):75세+
+                                            </td>
+                                            <td>10.7
+                                            </td>
+                                            <td>18.1
+                                            </td>
+                                            <td>24.7
+                                            </td>
+                                            <td>28.4
+                                            </td>
+                                            <td>30.7
+                                            </td>
+                                        </tr> <!--여기까지 작업-->
                                         <tr>
-                                            <td>Gloria Little</td>
+                                            <td>구성비(%):80세+
+                                            </td>
                                             <td>Systems Administrator</td>
                                             <td>New York</td>
                                             <td>59</td>
@@ -355,7 +460,9 @@
                                             <td>$237,500</td>
                                         </tr>
                                         <tr>
-                                            <td>Bradley Greer</td>
+                                            <td>구성비(%):85세+
+                                            </td>
+
                                             <td>Software Engineer</td>
                                             <td>London</td>
                                             <td>41</td>
@@ -363,7 +470,9 @@
                                             <td>$132,000</td>
                                         </tr>
                                         <tr>
-                                            <td>Dai Rios</td>
+                                            <td>성비(여자100명당):65세+
+                                            </td>
+
                                             <td>Personnel Lead</td>
                                             <td>Edinburgh</td>
                                             <td>35</td>
@@ -371,7 +480,9 @@
                                             <td>$217,500</td>
                                         </tr>
                                         <tr>
-                                            <td>Jenette Caldwell</td>
+                                            <td>성비(여자100명당):65-69세
+                                            </td>
+
                                             <td>Development Lead</td>
                                             <td>New York</td>
                                             <td>30</td>
@@ -379,7 +490,9 @@
                                             <td>$345,000</td>
                                         </tr>
                                         <tr>
-                                            <td>Yuri Berry</td>
+                                            <td>성비(여자100명당):70세+
+                                            </td>
+
                                             <td>Chief Marketing Officer (CMO)</td>
                                             <td>New York</td>
                                             <td>40</td>
@@ -387,7 +500,8 @@
                                             <td>$675,000</td>
                                         </tr>
                                         <tr>
-                                            <td>Caesar Vance</td>
+                                            <td>성비(여자100명당):75세+
+                                            </td>
                                             <td>Pre-Sales Support</td>
                                             <td>New York</td>
                                             <td>21</td>
@@ -395,7 +509,8 @@
                                             <td>$106,450</td>
                                         </tr>
                                         <tr>
-                                            <td>Doris Wilder</td>
+                                            <td>성비(여자100명당):80세+
+                                            </td>
                                             <td>Sales Assistant</td>
                                             <td>Sidney</td>
                                             <td>23</td>
@@ -403,7 +518,8 @@
                                             <td>$85,600</td>
                                         </tr>
                                         <tr>
-                                            <td>Angelica Ramos</td>
+                                            <td>성비(여자100명당):85세+
+                                            </td>
                                             <td>Chief Executive Officer (CEO)</td>
                                             <td>London</td>
                                             <td>47</td>
@@ -411,7 +527,8 @@
                                             <td>$1,200,000</td>
                                         </tr>
                                         <tr>
-                                            <td>Gavin Joyce</td>
+                                            <td>학령인구:계(6-21세)
+                                            </td>
                                             <td>Developer</td>
                                             <td>Edinburgh</td>
                                             <td>42</td>
@@ -419,7 +536,8 @@
                                             <td>$92,575</td>
                                         </tr>
                                         <tr>
-                                            <td>Jennifer Chang</td>
+                                            <td>학령인구:초등학교(6-11세)
+                                            </td>
                                             <td>Regional Director</td>
                                             <td>Singapore</td>
                                             <td>28</td>
@@ -427,7 +545,8 @@
                                             <td>$357,650</td>
                                         </tr>
                                         <tr>
-                                            <td>Brenden Wagner</td>
+                                            <td>학령인구:중학교(12-14세)
+                                            </td>
                                             <td>Software Engineer</td>
                                             <td>San Francisco</td>
                                             <td>28</td>
@@ -435,7 +554,8 @@
                                             <td>$206,850</td>
                                         </tr>
                                         <tr>
-                                            <td>Fiona Green</td>
+                                            <td>학령인구:고등학교(15-17세)
+                                            </td>
                                             <td>Chief Operating Officer (COO)</td>
                                             <td>San Francisco</td>
                                             <td>48</td>
@@ -443,7 +563,8 @@
                                             <td>$850,000</td>
                                         </tr>
                                         <tr>
-                                            <td>Shou Itou</td>
+                                            <td>학령인구:대학교(18-21세)
+                                            </td>
                                             <td>Regional Marketing</td>
                                             <td>Tokyo</td>
                                             <td>20</td>
@@ -451,7 +572,8 @@
                                             <td>$163,000</td>
                                         </tr>
                                         <tr>
-                                            <td>Michelle House</td>
+                                            <td>청소년인구:계(9-24세)
+                                            </td>
                                             <td>Integration Specialist</td>
                                             <td>Sidney</td>
                                             <td>37</td>
@@ -459,7 +581,8 @@
                                             <td>$95,400</td>
                                         </tr>
                                         <tr>
-                                            <td>Suki Burks</td>
+                                            <td>청소년인구:9-13세
+                                            </td>
                                             <td>Developer</td>
                                             <td>London</td>
                                             <td>53</td>
@@ -467,7 +590,8 @@
                                             <td>$114,500</td>
                                         </tr>
                                         <tr>
-                                            <td>Prescott Bartlett</td>
+                                            <td>청소년인구:14-17세
+                                            </td>
                                             <td>Technical Author</td>
                                             <td>London</td>
                                             <td>27</td>
@@ -475,7 +599,8 @@
                                             <td>$145,000</td>
                                         </tr>
                                         <tr>
-                                            <td>Gavin Cortez</td>
+                                            <td>청소년인구:18-19세
+                                            </td>
                                             <td>Team Leader</td>
                                             <td>San Francisco</td>
                                             <td>22</td>
@@ -483,7 +608,8 @@
                                             <td>$235,500</td>
                                         </tr>
                                         <tr>
-                                            <td>Martena Mccray</td>
+                                            <td>청소년인구:20-24세
+                                            </td>
                                             <td>Post-Sales support</td>
                                             <td>Edinburgh</td>
                                             <td>46</td>
@@ -491,7 +617,8 @@
                                             <td>$324,050</td>
                                         </tr>
                                         <tr>
-                                            <td>Unity Butler</td>
+                                            <td>구성비(%):9-13세
+                                            </td>
                                             <td>Marketing Designer</td>
                                             <td>San Francisco</td>
                                             <td>47</td>
@@ -499,7 +626,8 @@
                                             <td>$85,675</td>
                                         </tr>
                                         <tr>
-                                            <td>Howard Hatfield</td>
+                                            <td>구성비(%):14-17세
+                                            </td>
                                             <td>Office Manager</td>
                                             <td>San Francisco</td>
                                             <td>51</td>
@@ -507,7 +635,8 @@
                                             <td>$164,500</td>
                                         </tr>
                                         <tr>
-                                            <td>Hope Fuentes</td>
+                                            <td>구성비(%):18-19세
+                                            </td>
                                             <td>Secretary</td>
                                             <td>San Francisco</td>
                                             <td>41</td>
@@ -515,7 +644,8 @@
                                             <td>$109,850</td>
                                         </tr>
                                         <tr>
-                                            <td>Vivian Harrell</td>
+                                            <td>구성비(%):20-24세
+                                            </td>
                                             <td>Financial Controller</td>
                                             <td>San Francisco</td>
                                             <td>62</td>
@@ -523,7 +653,8 @@
                                             <td>$452,500</td>
                                         </tr>
                                         <tr>
-                                            <td>Timothy Mooney</td>
+                                            <td>청년인구(천명):19-34세
+                                            </td>
                                             <td>Office Manager</td>
                                             <td>London</td>
                                             <td>37</td>
@@ -531,140 +662,13 @@
                                             <td>$136,200</td>
                                         </tr>
                                         <tr>
-                                            <td>Jackson Bradshaw</td>
+                                            <td>구성비(%):19-34세
+                                            </td>
                                             <td>Director</td>
                                             <td>New York</td>
                                             <td>65</td>
                                             <td>2008/09/26</td>
                                             <td>$645,750</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Olivia Liang</td>
-                                            <td>Support Engineer</td>
-                                            <td>Singapore</td>
-                                            <td>64</td>
-                                            <td>2011/02/03</td>
-                                            <td>$234,500</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Bruno Nash</td>
-                                            <td>Software Engineer</td>
-                                            <td>London</td>
-                                            <td>38</td>
-                                            <td>2011/05/03</td>
-                                            <td>$163,500</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Sakura Yamamoto</td>
-                                            <td>Support Engineer</td>
-                                            <td>Tokyo</td>
-                                            <td>37</td>
-                                            <td>2009/08/19</td>
-                                            <td>$139,575</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Thor Walton</td>
-                                            <td>Developer</td>
-                                            <td>New York</td>
-                                            <td>61</td>
-                                            <td>2013/08/11</td>
-                                            <td>$98,540</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Finn Camacho</td>
-                                            <td>Support Engineer</td>
-                                            <td>San Francisco</td>
-                                            <td>47</td>
-                                            <td>2009/07/07</td>
-                                            <td>$87,500</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Serge Baldwin</td>
-                                            <td>Data Coordinator</td>
-                                            <td>Singapore</td>
-                                            <td>64</td>
-                                            <td>2012/04/09</td>
-                                            <td>$138,575</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Zenaida Frank</td>
-                                            <td>Software Engineer</td>
-                                            <td>New York</td>
-                                            <td>63</td>
-                                            <td>2010/01/04</td>
-                                            <td>$125,250</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Zorita Serrano</td>
-                                            <td>Software Engineer</td>
-                                            <td>San Francisco</td>
-                                            <td>56</td>
-                                            <td>2012/06/01</td>
-                                            <td>$115,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Jennifer Acosta</td>
-                                            <td>Junior Javascript Developer</td>
-                                            <td>Edinburgh</td>
-                                            <td>43</td>
-                                            <td>2013/02/01</td>
-                                            <td>$75,650</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Cara Stevens</td>
-                                            <td>Sales Assistant</td>
-                                            <td>New York</td>
-                                            <td>46</td>
-                                            <td>2011/12/06</td>
-                                            <td>$145,600</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Hermione Butler</td>
-                                            <td>Regional Director</td>
-                                            <td>London</td>
-                                            <td>47</td>
-                                            <td>2011/03/21</td>
-                                            <td>$356,250</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Lael Greer</td>
-                                            <td>Systems Administrator</td>
-                                            <td>London</td>
-                                            <td>21</td>
-                                            <td>2009/02/27</td>
-                                            <td>$103,500</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Jonas Alexander</td>
-                                            <td>Developer</td>
-                                            <td>San Francisco</td>
-                                            <td>30</td>
-                                            <td>2010/07/14</td>
-                                            <td>$86,500</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Shad Decker</td>
-                                            <td>Regional Director</td>
-                                            <td>Edinburgh</td>
-                                            <td>51</td>
-                                            <td>2008/11/13</td>
-                                            <td>$183,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Michael Bruce</td>
-                                            <td>Javascript Developer</td>
-                                            <td>Singapore</td>
-                                            <td>29</td>
-                                            <td>2011/06/27</td>
-                                            <td>$183,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Donna Snider</td>
-                                            <td>Customer Support</td>
-                                            <td>New York</td>
-                                            <td>27</td>
-                                            <td>2011/01/25</td>
-                                            <td>$112,000</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -674,16 +678,20 @@
                 </main>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small"></div>
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
                     </div>
                 </footer>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="js/scripts.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="assets/demo/chart-area-demo.js"></script>
-        <script src="assets/demo/chart-bar-demo.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="js/datatables-simple-demo.js"></script>
     </body>
