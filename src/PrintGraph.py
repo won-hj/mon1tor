@@ -18,11 +18,11 @@ def get_files(path, option=0):
     if option == 0:
         return os.listdir(dir_list)[:-1]
     else:
-        return len(os.listdir(dir_list)[:-1])
+        return len(os.listdir(dir_list)[:-1]) 
 
 def get_location():
     cwd = os.getcwd()
-    path = os.path.join(cwd, '.\\tool\\')
+    path = os.path.join(cwd, './config/birth&death_data/under2022/')
     return path
 
 # 딕셔너리에 {년도:데이터리스트} 로 저장
@@ -60,7 +60,7 @@ def test_csv():
     set_figure = {} 
     
     for i in range(len(file)): 
-        with open ('../tool/'+ str(2013+i) +'data.csv', encoding='UTF-8') as f:
+        with open ('../config/birth\&death_data/under2022/'+ str(2013+i) +'data.csv', encoding='UTF-8') as f:
             reader = csv.reader(f)
             birth_death_data = []
             age_data = []
@@ -87,8 +87,3 @@ if __name__ == "__main__":
     '2018data.csv', '2019data.csv', '2020data.csv', '2021data.csv', '2022data.csv']
 
     '''
-<<<<<<< HEAD
-    #print(get_files('../tool/', 0))
-=======
-    #print(get_files('../tool/', 0))
->>>>>>> b86282b076e0319ab97966a988e57f494c429232
