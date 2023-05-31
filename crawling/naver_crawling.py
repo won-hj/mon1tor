@@ -51,3 +51,9 @@ def basic_clear(text):
         text[i] = text[i].replace('&apos;',' ')
         text[i] = text[i].replace('&quot;',' ')
     return text
+
+search = keyword('저출산 산업',100)
+news = info(search)
+basic_clear(news['Title'])
+basic_clear(news['Description'])
+print(news)
