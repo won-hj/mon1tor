@@ -44,3 +44,6 @@ def info(places): #return column,row형식의 dtf
     dtf = pd.DataFrame(ar, columns=['PubDate','Title','Link','Description'])
     return dtf
 
+search = keyword('저출산 산업',100)
+news = info(search)
+print(news)
