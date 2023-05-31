@@ -2,6 +2,8 @@ import os
 import sys
 import urllib.request
 import requests
+import pandas as pd
+import numpy as np
 #api 사용해서 불러오기
 client_id = "lg542JOAVw0xKmjJ1Nlf"
 client_secret = "mArt8cw08s"
@@ -24,8 +26,21 @@ def keyword(key, display_num): #return 크롤링결과 json형식 / key : 검색
     r = response_json.get('items',[])
 
     return r 
-results = keyword("저출산 산업",10)
 
-for result in results:
-    print(results)
+def info(places): #return column,row형식의 dtf
+    PubDate = []
+    Title = []
+    Link = []
+    Description = []
+
+    for place in places:
+
+        PubDate.append(place['pubDate'])
+        Title.append(place['title'])
+        Link.append(place['link'])
+        Description.append(place['description'])
+
+    ar = np.array([PubDate, Title, Link, Description]).T 
+    dtf = pd.DataFrame(ar, columns=['PubDate','Title','Link','Description'])
+    return dtf
 
