@@ -44,6 +44,10 @@ def info(places): #return column,row형식의 dtf
     dtf = pd.DataFrame(ar, columns=['PubDate','Title','Link','Description'])
     return dtf
 
-search = keyword('저출산 산업',100)
-news = info(search)
-print(news)
+def basic_clear(text):
+    for i in range(len(text)) :
+        text[i] = text[i].replace('<b>',' ')
+        text[i] = text[i].replace('</b>',' ')
+        text[i] = text[i].replace('&apos;',' ')
+        text[i] = text[i].replace('&quot;',' ')
+    return text
