@@ -24,5 +24,8 @@ def keyword(key, display_num): #return 크롤링결과 json형식 / key : 검색
     r = response_json.get('items',[])
 
     return r 
+results = keyword("저출산 산업",10)
 
+for result in results:
+    print(results)
 
