@@ -51,6 +51,10 @@ def basic_clear(text):
         text[i] = text[i].replace('&apos;',' ')
         text[i] = text[i].replace('&quot;',' ')
     return text
+search = keyword('저출산 산업',100)
+news = info(search)
+basic_clear(news['Title'])
+basic_clear(news['Description'])
 
 length = len(news['Title'])-1
 
@@ -58,3 +62,5 @@ for i in range(length):
     if news['Title'].iloc[i][:8] == news['Title'].iloc[i+1][8]:
         news['Title'].iloc[i] = np.NaN
 news.dropna(inplace=True)
+
+print(news)
