@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 import urllib.request
 import requests
@@ -44,14 +45,20 @@ def info(places): #return column,row형식의 dtf
     dtf = pd.DataFrame(ar, columns=['PubDate','Title','Link','Description'])
     return dtf
 
-def basic_clear(text):
+def basic_clear(text): # return 불필요한 기호 제거 text
     for i in range(len(text)) :
         text[i] = text[i].replace('<b>',' ')
         text[i] = text[i].replace('</b>',' ')
         text[i] = text[i].replace('&apos;',' ')
         text[i] = text[i].replace('&quot;',' ')
     return text
-search = keyword('저출산 산업',100)
+
+def extract_word(text): #return 특수기호 제거 result
+    hangul = re.compile('[^가-힣0-9]')
+    result = hangul.sub(' ',text)
+    return result
+
+search = keyword('저출산 산업',5)
 news = info(search)
 basic_clear(news['Title'])
 basic_clear(news['Description'])
@@ -62,5 +69,9 @@ for i in range(length):
     if news['Title'].iloc[i][:8] == news['Title'].iloc[i+1][8]:
         news['Title'].iloc[i] = np.NaN
 news.dropna(inplace=True)
+
+for i in range (len(news['Title'])):
+    news['Title'].iloc[i] = extract_word(news['Title'].iloc[i])
+    news['Description'].iloc[i] = extract_word(news['Description'].iloc[i])
 
 print(news)
