@@ -2,6 +2,7 @@ import os
 import re
 import sys
 import urllib.request
+from matplotlib import pyplot as plt
 import requests
 import pandas as pd
 import numpy as np
@@ -74,4 +75,6 @@ for i in range (len(news['Title'])):
     news['Title'].iloc[i] = extract_word(news['Title'].iloc[i])
     news['Description'].iloc[i] = extract_word(news['Description'].iloc[i])
 
-print(news)
+news['Link'] = '<a href="'+ news['Link'] + '">Go to link</a>'
+news_html = news.to_html(escape=False)
+print(news_html)
