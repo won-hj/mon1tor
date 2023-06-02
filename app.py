@@ -43,14 +43,14 @@ def graph_example():
         globals()['p{}'.format(i)].add_tools(HoverTool(tooltips=[("Type", "@Type"), ("Value", "@value")]))
         plot_list.append(globals()['p{}'.format(i)]) 
 
+'''
 <<<<<<< HEAD
 =======
-        
-        '''
->>>>>>> b86282b076e0319ab97966a988e57f494c429232
+        >>>>>>> b86282b076e0319ab97966a988e57f494c429232
     layout = gridplot([plot_list])
 
     return json.dumps(json_item(layout, 'layout'))
 
 if __name__ == '__main__':
     app.run()
+''' 
