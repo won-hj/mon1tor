@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-
+from werkzeug.security import generate_password_hash, check_password_hash
 db = SQLAlchemy() #SQLAlchemy 인스턴스 생성
 
 class User(db.Model): #데이터 모델(SQL table)을 나타내는 객체
@@ -10,7 +10,8 @@ class User(db.Model): #데이터 모델(SQL table)을 나타내는 객체
     userid = db.Column(db.String(32), unique=True, nullable=False)
     password = db.Column(db.String(8), nullable=False)
 
-    def __init__(self, email, password): #User클래스 생성자
+    def __init__(self, userid, email, password): #User클래스 생성자
+        self.userid = userid
         self.email = email
         self.set_password(password)
     

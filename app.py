@@ -55,40 +55,34 @@ if __name__ == '__main__':
     app.run()
 '''
 import os
-from flask import request, redirect
+from flask import request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 from Models import db
 from Models import User
+from flask_wtf.csrf import CSRFProtect
+from form import RegisterForm
 app = Flask(__name__)
-
+app.config['SECRET_KEY'] = 'your-secret-key'
 @app.route('/')
-def hello():
-	return 'Hello World!'
+def mainpage():
+	return render_template('index.html')
 
 @app.route('/register', methods=['GET','POST']) #GET(정보보기), POST(정보수정) 메서드 허용
 def register():
-    if request.method == 'GET':
-        return render_template("register.html")
-    else:
-        userid = request.form.get('userid')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        password_2 = request.form.get('password')
+    form = RegisterForm()
+    if form.validate_on_submit(): #내용 채우지 않은 항목이 있는지까지 체크
+        userid = form.data.get('userid')
+        email = form.data.get('email')
+        password = form.data.get('password')
 
-        if not(userid and email and password and password_2):
-            return "입력되지 않은 정보가 있습니다"
-        elif password != password_2:
-            return "비밀번호가 일치하지 않습니다"
-        else:
-            usertable=User() #user_table 클래스
-            usertable.userid = userid
-            usertable.email = email
-            usertable.password = password
-            
-            db.session.add(usertable)
-            db.session.commit()
-            return "회원가입 성공"
-        return redirect('/')
+        usertable = User(userid, email, password) 
+
+        db.session.add(usertable) #DB저장
+        db.session.commit() #변동사항 반영
+        
+        return "회원가입 성공" 
+    return render_template('register.html', form=form)
+
 
 if __name__ == "__main__":
     #데이터베이스---------
