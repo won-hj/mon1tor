@@ -55,12 +55,12 @@ if __name__ == '__main__':
     app.run()
 '''
 import os
-from flask import request, redirect, session
+from flask import request, redirect, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from Models import db
 from Models import User
 from flask_wtf.csrf import CSRFProtect
-from form import RegisterForm
+from form import RegisterForm, LoginForm
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key'
 @app.route('/')
@@ -83,14 +83,24 @@ def register():
         return "회원가입 성공" 
     return render_template('register.html', form=form)
 
-@app.route('/login', methods=['GET','POST'])  
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm() #로그인폼
-    if form.validate_on_submit(): #유효성 검사
-        print('{}가 로그인 했습니다'.format(form.data.get('userid')))
-        session['userid']=form.data.get('userid') #form에서 가져온 userid를 세션에 저장
-        return redirect('/') #성공하면 main.html로
+    form = LoginForm()
+    if form.validate_on_submit():
+        try:
+            userid = form.data.get('userid')
+            user = User.query.filter_by(userid=userid).first()  # 사용자 ID로 데이터베이스 검색
+
+            if not user:  # 사용자 정보가 데이터베이스에 없는 경우
+                flash('No user found with this userid')
+                return redirect('/login')
+
+            session['userid'] = userid
+            return redirect('/')
+        except ValueError:
+            return redirect('/login')  # ValueError 발생 시 로그인 페이지로 리다이렉트
     return render_template('login.html', form=form)
+
 
 @app.route('/logout', methods=['GET'])
 def logout():
