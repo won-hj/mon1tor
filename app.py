@@ -83,6 +83,19 @@ def register():
         return "회원가입 성공" 
     return render_template('register.html', form=form)
 
+@app.route('/login', methods=['GET','POST'])  
+def login():
+    form = LoginForm() #로그인폼
+    if form.validate_on_submit(): #유효성 검사
+        print('{}가 로그인 했습니다'.format(form.data.get('userid')))
+        session['userid']=form.data.get('userid') #form에서 가져온 userid를 세션에 저장
+        return redirect('/') #성공하면 main.html로
+    return render_template('login.html', form=form)
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    session.pop('userid', None)
+    return redirect('/')
 
 if __name__ == "__main__":
     #데이터베이스---------
