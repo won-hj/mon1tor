@@ -7,10 +7,8 @@ from bokeh.models import BasicTickFormatter, NumeralTickFormatter
 from bokeh.layouts import gridplot
 import logging
 import os
-
+import sys
 from configparser import ConfigParser
-
-
 
 #################################
 parser = ConfigParser()
@@ -26,6 +24,7 @@ parser.read('../config/config.ini', encoding='utf-8')
     'config/work_nonwork/under2022'
 '''
 test = ['birthover', 'birthunder', 'workover', 'workunder']
+
 def get_cp():
     
     for i in test:
@@ -40,23 +39,22 @@ def get_cp():
 def get_files(path, option=0):
     dir_list = path 
     if option == 0:
-        return os.listdir(dir_list)[:-1]
+        return os.listdir(dir_list)
     else:
-        return len(os.listdir(dir_list)[:-1]) 
+        return len(os.listdir(dir_list)) 
 
 def get_location():
-    cwd = os.getcwd()
-    path = os.path.join(cwd, parser.get('config', 'birthunder'))
+    cwd = os.getcwd() 
+    path = os.path.join(cwd, '.\\config\\birth_death\\under2022\\')
     return path
 
 # 딕셔너리에 {년도:데이터리스트} 로 저장
 def get_csv():
     file = get_files(get_location(), 0)
-
     set_figure = {} 
     
     for i in range(len(file)): 
-
+                    # './../config/birth_death/under2022/'
         with open (get_location()+ str(2013+i) +'.csv', encoding='UTF-8') as f:
             reader = csv.reader(f)
             birth_death_data = []
@@ -113,4 +111,9 @@ if __name__ == "__main__":
 
     '''
     #get_cp() #123 
-    print(get_location())
+    #print(get_location())
+    #print(os.path.abspath('2013.csv'))
+    #print(get_location())
+    get_csv()
+    #print(os.getcwd())
+    #print(os.path.join(os.getcwd(), './../config/birth_death/under22/'))
