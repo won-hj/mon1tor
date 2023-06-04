@@ -26,7 +26,7 @@ class ForecastPlotter:
         m_deaths.fit(deaths_data)
 
         future_start_date = pd.to_datetime('2031')
-        future_end_date = pd.to_datetime('2036')
+        future_end_date = pd.to_datetime('2037')
 
         future_dates = pd.date_range(start=future_start_date, end=future_end_date, freq='Y')
 
@@ -69,5 +69,5 @@ class ForecastPlotter:
 
 data = pd.read_csv('../../tool/birth&death_data/-2032data.csv')
 
-forecast_plotter = ForecastPlotter(data, ['births', 'deaths'], '2033-2036')
+forecast_plotter = ForecastPlotter(data, ['births', 'deaths'], '2033-2037')
 forecast_plotter.plot()
