@@ -103,23 +103,26 @@ def testbd():
 #해결되면 구분해서 화면에 띄워주기만 하면 된다.
 @app.route('/testapp')
 def testapp():
-    year = 2036
-    mark = 'over'
+    import sys
+    year = 2013
+    mark = 'under'
     plot = []
     datalist = opencsv(mark, year)
     xformatter = NumeralTickFormatter(format="0,0")
 
     bd_df = pd.DataFrame(datalist[0], columns=['type', 'value'])
     age_df = pd.DataFrame(datalist[1], columns=['type', 'value'])
-    print(datalist) #비어있다 
+    sys.stderr.write('testapp1: '+str(datalist)) #testapp
     bd_source = ColumnDataSource(bd_df)
     age_source = ColumnDataSource(age_df)
+    sys.stderr.write('\ntestapp2: '+str(datalist[0]))
+    sys.stderr.write('\ntestapp3: '+str(datalist[1]))
 
-    p1 = figure(y_range=bd_df['type'], title=Title(text='%d년 출생아 수 사망자 수'%int(year), align="center", text_font_size="22px", text_font="Consolas", text_font_style="bold"), height=500, width=500)
-    p1.hbar(y='type', right='value', height=0.3, color=Spectral4[1], source=bd_source)
-    p1.xaxis.formatter = NumeralTickFormatter(format="0.0")
-    p1.xaxis.formatter = xformatter
-    p1.add_tools(HoverTool(tooltips=[("Type", "@Type"), ("Value", "@value")]))
+    #p1 = figure(y_range=bd_df['type'], title=Title(text='%d년 births 수 deaths 수'%int(year), align="center", text_font_size="22px", text_font="Consolas", text_font_style="bold"), height=500, width=500)
+    #p1.hbar(y='type', right='value', height=0.3, color=Spectral4[1], source=bd_source)
+    #p1.xaxis.formatter = NumeralTickFormatter(format="0.0")
+    #p1.xaxis.formatter = xformatter
+    #p1.add_tools(HoverTool(tooltips=[("Type", "@Type"), ("Value", "@value")]))
     '''
         birth_death_df = pd.DataFrame(list(csv.values())[i][0], columns=['type', 'value'])
         age_df = pd.DataFrame(list(csv.values())[i][1], columns=['type', 'value'])
@@ -135,14 +138,14 @@ def testapp():
     '''
 
     ####
-    #p2 = figure(y_range=age_df['type'], title=Title(text="2013년 생산가능 인구와 \n고령인구 수(단위 : 백 명)", align="center", text_font_size="22px", text_font="Consolas", text_font_style="bold"), height=500, width=500)
-    #p2.hbar(y='type', right='value', height=0.3, color=Spectral4[2], source=age_source)
-    #p2.xaxis.formatter = NumeralTickFormatter(format="0,0")
-    #p2.xaxis.formatter = xformatter
-    #p2.add_tools(HoverTool(tooltips=[("Type", "@type"), ("Value", "@value")])) #p1과 동일한 내용의 코드
+    p2 = figure(y_range=age_df['type'], title=Title(text="2013년 생산가능 인구와 \n고령인구 수(단위 : 백 명)", align="center", text_font_size="22px", text_font="Consolas", text_font_style="bold"), height=500, width=500)
+    p2.hbar(y='type', right='value', height=0.3, color=Spectral4[2], source=age_source)
+    p2.xaxis.formatter = NumeralTickFormatter(format="0,0")
+    p2.xaxis.formatter = xformatter
+    p2.add_tools(HoverTool(tooltips=[("Type", "@type"), ("Value", "@value")])) #p1과 동일한 내용의 코드
 
-    plot.append(p1)
-    #plot.append(p2)
+    #plot.append(p1)
+    plot.append(p2)
     layout = gridplot([plot])
     return json.dumps(json_item(gridplot([plot]), 'test_layout')) 
 
@@ -160,8 +163,8 @@ def opencsv(mark, year):
         for row in reader:
             if len(row) == 0 or row[0][0] == '#':
                 continue
-            if row[0] == '출생아수' or row[0] == '사망자수':
-                birth_death_data.append(row)
+            #if row[0] == '출생아수' or row[0] == '사망자수':
+            #    birth_death_data.append(row)
             elif row[0] == '생산가능인구(15-64)' or row[0] == '고령인구(65-)':
                 age_data.append(row)
             if row[0] == 'births' or row[0] == 'deaths':
