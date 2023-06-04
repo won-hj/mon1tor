@@ -26,7 +26,7 @@ class ForecastPlotter:
         m_nonwork.fit(nonwork_data)
 
         future_start_date = pd.to_datetime('2032')
-        future_end_date = pd.to_datetime('2036')
+        future_end_date = pd.to_datetime('2037')
 
         future_dates = pd.date_range(start=future_start_date, end=future_end_date, freq='Y')
 
@@ -40,7 +40,7 @@ class ForecastPlotter:
         p = figure(title=Title(text=self.title, align="center", text_font_size="22px", text_font="Consolas", text_font_style="bold"),
                 x_axis_type='datetime', width=800, height=400)
 
-        p.xaxis.ticker = FixedTicker(ticks=pd.date_range(start='2013', end='2036', freq='YS').astype(int) / 10**6)
+        p.xaxis.ticker = FixedTicker(ticks=pd.date_range(start='2013', end='2037', freq='YS').astype(int) / 10**6)
         p.xaxis.formatter = DatetimeTickFormatter(years='%Y')
 
         source_work = ColumnDataSource(data=dict(
@@ -70,5 +70,5 @@ class ForecastPlotter:
 
 data = pd.read_csv('../../tool/work&nonwork_data/-2032_data.csv')
 
-forecast_plotter = ForecastPlotter(data, ['work_demo', 'nonwork_demo'], '2033-2036 생산가능인구/생산불가능인구 변화')
+forecast_plotter = ForecastPlotter(data, ['work_demo', 'nonwork_demo'], '2033-2037 생산가능인구/생산불가능인구 변화')
 forecast_plotter.plot()
