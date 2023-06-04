@@ -8,6 +8,10 @@
         <meta name="author" content="" />
         <title>Charts - SB Admin</title>
         <link href="css/styles.css" rel="stylesheet" />
+        <!-- 변경사항-->
+        <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+        <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+        <!-- 변경사항 여기까지, 밑의 변경사항 라인과 마찬가지로 pyscript 테스트 실행을 위한 추가 라인-->
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
@@ -91,9 +95,14 @@
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="index.html">장래인구추계</a></li>
                             <li class="breadcrumb-item active">Charts</li>
-                        </ol>
-                        
+                        </ol>    
                     </div>
+                    <!--본문 시작-->
+                    <py-env></py-env>
+                    <div>
+                        <py-script src="../past_graph/-2022_graph.py"></py-script>
+                    </div>
+                <!--여기 까지 본문, 해당 라인에서 pyscript에 대한 실험을 시행/ 결과: 서로 다른 개발 환경에서의 호환성 문제로 실행되지 않음-->
                 </main>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
