@@ -43,7 +43,7 @@ def graph_example():
         globals()['p{}'.format(i)].add_tools(HoverTool(tooltips=[("Type", "@Type"), ("Value", "@value")]))
         plot_list.append(globals()['p{}'.format(i)]) 
 
-    sys.stderr.write('graph_ex: ' + str(plot_list))
+    #sys.stderr.write('graph_ex: ' + str(plot_list))
     layout = gridplot([plot_list])
 
     return json.dumps(json_item(layout, 'layout'))
@@ -113,16 +113,20 @@ def testapp():
 @app.route('/testwnwapp')
 def testwnwapp():
     import sys
-    #branch, mark, year = 'work_nonwork', 'under', 20132022
-    branch, mark, year = 'birth_death', 'under', 2013 #확인
+    #from prophet
+    branch, mark, year = 'work_nonwork', 'under', 20132022
+    #branch, mark, year = 'birth_death', 'under', 2014 #확인
     layout = get_plot(branch, mark, year)
 
     return json.dumps(json_item(layout, 'test_wnwapp')) 
 
 #4개 케이스 테스트 
-def opencsv(branch ,mark, year):
+
+#다른 구조간 구분 - opencsv1 > 가로행
+#                - opencsv2 > 세로행
+def opencsv1(branch ,mark, year):
     import csv, os
-    
+
     cwd = os.getcwd() 
     path = os.path.join(cwd, '.\\config\\'+ branch +'\\'+mark+'\\')
     
@@ -130,7 +134,6 @@ def opencsv(branch ,mark, year):
         reader = csv.reader(f)
         birth_death_data = []
         age_data = []
-        work_percent_data = []
         for row in reader:
             if len(row) == 0 or row[0][0] == '#':
                 continue
@@ -142,23 +145,63 @@ def opencsv(branch ,mark, year):
                 birth_death_data.append(row)
             elif row[0] == 'work_demo' or row[0] == 'nonwork_demo':
                 age_data.append(row)
-            
-            
-            
-            #if row[0].isnumeric: #': #or row[0] == 'work_demo' or row[0] == 'nonwork_demo':
-            #    age_data.append(row[1])
-            #    age_data.append(row[2])
-            #    work_percent_data.append(row[3])
-            #    work_percent_data.append(row[4])
+           
+    return [birth_death_data, age_data]
 
-                #return [birth_death_data, age_data, work_percent_data]
-            
-            #if branch == 'work_nonwork' and mark == 'under':
+def opencsv2(branch ,mark, year):
+    import csv, os
+    import numpy as np
+    
+    cwd = os.getcwd() 
+    path = os.path.join(cwd, '.\\config\\'+ branch +'\\'+mark+'\\')
+    temp1 = []
+    temp2 = []
+    mean = {}
+    with open( path + str(year) + '.csv', encoding='utf-8') as f:
+        reader = csv.reader(f)
+        percent_data = []
+        age_data = []
+        for row in reader:
+                #각 항목 당 하나하나 
+            if row[0].isnumeric():
+                for i in range(1, 5):
+                    temp1.append(row[i])
 
-            #Year,work_percent,nonwork_percent,work_demo,nonwork_demo
-
-
-    return [birth_death_data, age_data, work_percent_data]
+        for i in range(2022-2013):
+            temp2.append(temp1[4*i:4*(i+1)]) 
+    
+    sys.stderr.write(str(temp2))
+    '''
+    [ 
+    ['73.4', '11.9', '3701', '602'], 
+    ['73.4', '12.4', '3725', '627'], 
+    ['73.4', '12.8', '3744', '654'], 
+    ['73.4', '13.2', '3759', '675'], 
+    ['73.2', '13.8', '3757', '706'], 
+    ['72.9', '14.3', '3762', '736'], 
+    ['72.7', '14.9', '3762', '768'], 
+    ['72.1', '15.7', '3737', '815'], 
+    ['71.6', '16.6', '3702', '857']
+    ]
+    -> [1]:
+    '''
+    for i in range(len(temp2)):
+        try:
+            mean['생산인구 퍼센트'] + temp2[i][0]
+            mean['노령인구 퍼센트'] + temp2[i][1]
+            mean['생산인구 수'] + temp2[i][2]
+            mean['노령인구 수'] + temp2[i][3]
+        except KeyError:
+            mean['생산인구 퍼센트'] = temp2[i][0]
+            mean['노령인구 퍼센트'] = temp2[i][1]
+            mean['생산인구 수'] = temp2[i][2]
+            mean['노령인구 수'] = temp2[i][3]
+    sys.stderr.write(str(mean))
+    #meanint = str(int(mean.values())/len(temp2))
+    #print(meanint)
+    #sys.stderr.write()
+    sys.stderr.write(str(mean))
+    return [percent_data, age_data]
 
 def get_plot(branch, mark, year):
     import sys
@@ -166,16 +209,22 @@ def get_plot(branch, mark, year):
     #mark = under/over
     #branch = /birth_death/work_nonwork
     plot = []
-    datalist = opencsv(branch, mark, year)
+    if branch is 'birth_death' and mark is 'under':
+        datalist = opencsv1(branch, mark, year)
+    elif branch is 'work_nonwork':
+        datalist = opencsv2(branch, mark, year)
     xformatter = NumeralTickFormatter(format="0,0")
 
     bd_df = pd.DataFrame(datalist[0], columns=['type', 'value'])
     age_df = pd.DataFrame(datalist[1], columns=['type', 'value'])
-    sys.stderr.write('get_plot: '+str(datalist)) #testapp
+    per_df = pd.DataFrame(datalist[2], columns=['type', 'value'])
+    #sys.stderr.write('get_plot/'+ branch+mark +': '+str(datalist)) #testapp
     bd_source = ColumnDataSource(bd_df)
     age_source = ColumnDataSource(age_df)
-    sys.stderr.write('\nget_plot: '+str(datalist[0]))
-    sys.stderr.write('\nget_plot: '+str(datalist[1]))
+    per_source = ColumnDataSource(per_df)
+    #sys.stderr.write('\nget_plot/'+ branch+mark +': '+str(datalist[0]))
+    #sys.stderr.write('\nget_plot/'+ branch+mark +': '+str(datalist[1]))
+    #sys.stderr.write('\nget_plot/'+ branch+mark +': '+str(datalist[2]))
 
     #flag에 따라 결과값(p1, p2) 달라진다
     if True:
@@ -192,9 +241,17 @@ def get_plot(branch, mark, year):
     p2.xaxis.formatter = NumeralTickFormatter(format="0,0")
     p2.xaxis.formatter = xformatter
     p2.add_tools(HoverTool(tooltips=[("Type", "@type"), ("Value", "@value")])) #p1과 동일한 내용의 코드
+    ####
+    p3 = figure(y_range=per_df['type'], title=Title(text="2013~2022년 생산가능 인구와 \n고령인구 수(단위 : 백 명)", align="center", text_font_size="22px", text_font="Consolas", text_font_style="bold"), height=500, width=500)
+    p3.hbar(y='type', right='value', height=0.3, color=Spectral4[3], source=per_source)
+    p3.xaxis.formatter = NumeralTickFormatter(format="0,0")
+    p3.xaxis.formatter = xformatter
+    p3.add_tools(HoverTool(tooltips=[("Type", "@type"), ("Value", "@value")])) #p1과 동일한 내용의 코드
 
+    
     plot.append(p1)
     plot.append(p2)
+    plot.append(p3)
     layout = gridplot([plot])
 
     return layout
