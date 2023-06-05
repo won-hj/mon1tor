@@ -1,3 +1,4 @@
+import csv
 import json
 import math
 from bokeh.layouts import gridplot
@@ -55,7 +56,7 @@ def testgraph():
     from src import PastGraph as pg
 
     mark = 'under' #over/under
-    year = 2013
+    year = 2022
     graph = pg.pastgraph(mark)
     plot = graph.get_plot(year)
 
@@ -104,7 +105,7 @@ def testbd():
 @app.route('/testbdapp')
 def testapp():
     import sys
-    branch, mark, year = 'birth_death', 'under', 2013 #확인
+    branch, mark, year = 'birth_death', 'over', 2036 #확인
     layout = get_plot(branch, mark, year)
     return json.dumps(json_item(layout, 'test_bdapp')) 
 
@@ -125,22 +126,19 @@ def opencsv(branch ,mark, year):
     cwd = os.getcwd() 
     path = os.path.join(cwd, '.\\config\\'+ branch +'\\'+mark+'\\')
     
-    with open( path + str(year) + '.csv', encoding='utf-8') as f:
-        reader = csv.reader(f)
-        birth_death_data = []
-        age_data = []
-        temp1 = []
-        temp2 = []
-        global mean
-        mean = {}
-        
-        if branch is 'birth_death':
-            for row in reader:
-                if mark is 'over':#over에서의 동작
-                    birth_death_data = get_dfdata(reader=reader, flag=0, branch=branch)
+    birth_death_data = []
+    age_data = []
+    percent_data = []
+
+    if branch is 'birth_death':
+        if mark is 'over':#over에서의 동작
+            birth_death_data = get_dfdata(flag=0, branch=branch, path=path, year=year)
                     
-                else: #under에서의 동작
-                #
+        else: #under에서의 동작
+            with open( path + str(year) + '.csv', encoding='utf-8') as f:
+                reader = csv.reader(f)
+
+                for row in reader:
                     if len(row) == 0 or row[0][0] == '#':
                         continue
                     if row[0] == '출생아수' or row[0] == '사망자수':
@@ -153,8 +151,9 @@ def opencsv(branch ,mark, year):
                         age_data.append(row)
                 
 
-        elif branch is 'work_nonwork':
-            with open( path + str(year) + '.csv', encoding='utf-8') as f:
+    elif branch is 'work_nonwork':
+        '''            
+                with open( path + str(year) + '.csv', encoding='utf-8') as f:
                 reader = csv.reader(f)
                 percent_data = []
                 age_data = []
@@ -210,7 +209,15 @@ def opencsv(branch ,mark, year):
                     mean['노령인구 수'] /= 10
                 
         percent_data = list(mean.items())
+        '''
+        if mark is 'over':
+            age_data = get_dfdata(flag=0, branch=branch, path=path, year=year)
+            pass
+        else:
+            percent_data = get_dfdata(flag=1, branch=branch, path=path, year=year)
+            pass
 
+        #age_data, percent_data
     return [birth_death_data, age_data, percent_data]
 
 def get_plot(branch, mark, year):
@@ -253,12 +260,12 @@ def get_plot(branch, mark, year):
 
     return layout
 
-def get_dfdata(reader, flag, branch): #flag 1: 4, 0:2
-    temp1, temp2 = []
+def get_dfdata(flag, branch, path, year): #flag 1: 4, 0:2
+    temp1, temp2 = [], []
     global mean
-    mean = []
+    mean = {}
     return_data = []
-    type1, type2, type3, type4 = ''
+    type1, type2, type3, type4 = '', '', '', ''
 
     if flag == 1: #wnw/under
         sep = 4
@@ -270,41 +277,34 @@ def get_dfdata(reader, flag, branch): #flag 1: 4, 0:2
         else:
             type1, type2 = '생산인구 수', '노령인구 수'
         
-    for row in reader:
-        if row[0].isnumeric():
+    with open( path + str(year) + '.csv', encoding='utf-8') as f:
+        reader = csv.reader(f)
+        for row in reader:
+            if row[0].isnumeric():
+                for i in range(1, sep+1):
+                    temp1.append(row[i])
+        for i in range(int(len(temp1)/sep)): #ex)2022-2013+1                        
+            temp2.append(temp1[sep*i:sep*(i+1)])  #확인        
+        
+        for i in range(0, 10): #2022-2013
             if sep == 2:
-                for i in range(1, sep + 1):
-                    temp1.append(row[i])
-
-                for i in range(len(reader)): #ex)2022-2013+1
-                    temp2.append(temp1[sep*i:sep*(i+1)]) 
-                    
-                for i in range(0, len(temp2)): #2022-2013
-                    try:
-                        mean[type1] += round(float(temp2[i][0]))
-                        mean[type2] += round(float(temp2[i][1]))
-                    except KeyError:
-                        mean[type1] = round(float(temp2[i][0]))
-                        mean[type2] = round(float(temp2[i][1]))
-
-            elif sep == 4:
-                for i in range(1, sep + 1):
-                    temp1.append(row[i])
-
-                for i in range(len(reader)): #ex)2022-2013+1
-                    temp2.append(temp1[sep*i:sep*(i+1)]) 
-                    
-                for i in range(0, len(temp2)): #2022-2013
-                    try:
-                        mean[type1] += round(float(temp2[i][0]))
-                        mean[type2] += round(float(temp2[i][1]))
-                        mean[type3] += round(float(temp2[i][2]))
-                        mean[type4] += round(float(temp2[i][3]))
-                    except KeyError:
-                        mean[type1] = round(float(temp2[i][0]))
-                        mean[type2] = round(float(temp2[i][1]))
-                        mean[type3] = round(float(temp2[i][2]))
-                        mean[type4] = round(float(temp2[i][3]))
+                try:
+                    mean[type1] += round(float(temp2[i][0]))
+                    mean[type2] += round(float(temp2[i][1]))
+                except KeyError:
+                    mean[type1] = round(float(temp2[i][0]))
+                    mean[type2] = round(float(temp2[i][1]))
+            elif sep is 4:
+                try:
+                    mean[type1] += round(float(temp2[i][0]))
+                    mean[type2] += round(float(temp2[i][1]))
+                    mean[type3] += round(float(temp2[i][2]))
+                    mean[type4] += round(float(temp2[i][3]))
+                except KeyError:
+                    mean[type1] = round(float(temp2[i][0]))
+                    mean[type2] = round(float(temp2[i][1]))
+                    mean[type3] = round(float(temp2[i][2]))
+                    mean[type4] = round(float(temp2[i][3]))
 
     try:
         mean[type1] /= 10
