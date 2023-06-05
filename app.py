@@ -10,7 +10,7 @@ import pandas as pd
 from bokeh.models import BasicTickFormatter, NumeralTickFormatter
 from bokeh.models import ColumnDataSource, HoverTool, Title
 from bokeh.palettes import Spectral4
-import sys
+
 
 from config.prediction_graph.birth_death import bdp20232027, bdp20282032
 from config.prediction_graph.work_nonwork import wnwp20232027, wnwp20282032
@@ -132,36 +132,58 @@ def test_predict():
     #return render_template()
     return json.dumps(json_item(plot, 'prelayout1'))
 
+##################의견구하기########################
 @app.route('/testallbdpred')
 def test_prebdall():
     from config.prediction_graph.birth_death import bdp20332037, bdp20232027, bdp20282032
 
 
-    data1, data2, data3 = pd.read_csv('./tool/birth&death_data/-2022data.csv'), pd.read_csv('./tool/birth&death_data/-2022data.csv'), pd.read_csv('./tool/birth&death_data/-2032data.csv')
+    data1, data2, data3 = pd.read_csv('./tool/birth&death_data/-2022data.csv'), pd.read_csv('./tool/birth&death_data/-2027data.csv'), pd.read_csv('./tool/birth&death_data/-2032data.csv')
 
-    p1, p2, p3 = bdp20232027.ForecastPlotter(data1, ['births', 'deaths'], '2023-2027'), bdp20282032.ForecastPlotter(data1, ['births', 'deaths'], '2028-2032'), bdp20332037.ForecastPlotter(data1, ['births', 'deaths'], '2033-2037')
+    p1, p2, p3 = bdp20232027.ForecastPlotter(data1, ['births', 'deaths'], '2023-2027'), bdp20282032.ForecastPlotter(data2, ['births', 'deaths'], '2028-2032'), bdp20332037.ForecastPlotter(data3, ['births', 'deaths'], '2033-2037')
 
     plot1, plot2, plot3 = p1.plot(), p2.plot(), p3.plot()
 
-    layout = [plot1, plot2, plot3]
+    #layout = ([plot1, plot2, plot3])
+    #layout = [plot1, plot2, plot3]
 
-    return json.dumps(json_item(layout, 'testallbdpredict'))
+    return json.dumps(json_item(plot2, 'testallbdpredict'))
 
+#TypeError: Converting from datetime64[ns] to int32 is not supported. Do obj.astype('int64').astype(dtype) instead
 @app.route('/testallwnwpred')
-def test_prebdall():
+def test_prewnwall():
     from config.prediction_graph.work_nonwork import wnwp20332037, wnwp20282032, wnwp20332037
 
 
-    data1, data2, data3 = pd.read_csv('./tool/birth&death_data/-2022data.csv'), pd.read_csv('./tool/birth&death_data/-2022data.csv'), pd.read_csv('./tool/birth&death_data/-2032data.csv')
+    data1, data2, data3 = pd.read_csv('./tool/work&nonwork_data/-2022_data.csv'), pd.read_csv('./tool/work&nonwork_data/-2027_data.csv'), pd.read_csv('./tool/work&nonwork_data/-2032_data.csv')
 
-    p1, p2, p3 = wnwp20232027.ForecastPlotter(data1, ['births', 'deaths'], '2023-2027'), wnwp20282032.ForecastPlotter(data1, ['births', 'deaths'], '2028-2032'), wnwp20332037.ForecastPlotter(data1, ['births', 'deaths'], '2033-2037')
+    p1, p2, p3 = wnwp20232027.ForecastPlotter(data1, ['work_demo', 'nonwork_demo'], '2023-2027 생산가능인구/생산불가능인구 변화'), wnwp20282032.ForecastPlotter(data2, ['work_demo', 'nonwork_demo'], '2028-2032 생산가능인구/생산불가능인구 변화'), wnwp20332037.ForecastPlotter(data3, ['work_demo', 'nonwork_demo'], '2033-2037 생산가능인구/생산불가능인구 변화')
 
     plot1, plot2, plot3 = p1.plot(), p2.plot(), p3.plot()
 
-    layout = [plot1, plot2, plot3]
+    #layout = [plot1, plot2, plot3]
 
-    return json.dumps(json_item(layout, 'testallwnwpredict'))
-############################################3
+    return json.dumps(json_item(plot1, 'testallwnwpredict'))
+######################################3
+############################################
+#테스트용 
+@app.route('/testwnwpredict')
+def test_prewnw():
+    from config.prediction_graph.work_nonwork import wnwp20332037, wnwp20282032, wnwp20332037
+
+
+    data1, data2, data3 = pd.read_csv('./tool/work&nonwork_data/-2022_data.csv'), pd.read_csv('./tool/work&nonwork_data/-2027_data.csv'), pd.read_csv('./tool/work&nonwork_data/-2032_data.csv')
+
+    p1, p2, p3 = wnwp20232027.ForecastPlotter(data1, ['work_demo', 'nonwork_demo'], '2023-2027 생산가능인구/생산불가능인구 변화'), wnwp20282032.ForecastPlotter(data2, ['work_demo', 'nonwork_demo'], '2028-2032 생산가능인구/생산불가능인구 변화'), wnwp20332037.ForecastPlotter(data3, ['work_demo', 'nonwork_demo'], '2033-2037 생산가능인구/생산불가능인구 변화')
+
+    plot1, plot2, plot3 = p1.plot(), p2.plot(), p3.plot()
+
+    return json.dumps(json_item(plot1, 'testwnwpredict'))
+@app.route('/example')
+def example():
+    return render_template('example.html')
+#################################################################################3
+
 #4개 케이스 테스트 - 확인
 def opencsv(branch ,mark, year):
     import csv, os
