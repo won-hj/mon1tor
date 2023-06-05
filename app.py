@@ -1,4 +1,5 @@
 import json
+import math
 from bokeh.layouts import gridplot
 from flask import Flask, render_template
 from bokeh.embed import json_item
@@ -152,6 +153,7 @@ def opencsv(branch ,mark, year):
         elif branch is 'work_nonwork':
             temp1 = []
             temp2 = []
+            global mean
             mean = {}
             with open( path + str(year) + '.csv', encoding='utf-8') as f:
                 reader = csv.reader(f)
@@ -165,13 +167,13 @@ def opencsv(branch ,mark, year):
                     for row in reader:
                         lenrow = len(row)
                         if row[0].isnumeric():
-                            for i in range(1, 5):
+                            for i in range(1, 3):
                                 temp1.append(row[i])
                     print('lenrow' + str(lenrow))
-                    for i in range(2): #2개있어서 
+                    for i in range(3): #2개있어서 
                         temp2.append(temp1[2*i:2*(i+1)]) 
                     sys.stderr.write('temp2-1: '+str(temp2))
-                    for i in range(len(temp2)):
+                    for i in range(len(temp2)+1):
                         try:
                             mean['생산인구 수'] + temp2[i][2]
                             mean['노령인구 수'] + temp2[i][3]
@@ -186,28 +188,39 @@ def opencsv(branch ,mark, year):
                             for i in range(1, 5):
                                 temp1.append(row[i])
 
-                    for i in range(2022-2013):
+                    for i in range(2022-2013+1):
                         temp2.append(temp1[4*i:4*(i+1)]) 
                 
-                sys.stderr.write('temp2-2: '+str(temp2)) #168???
+                sys.stderr.write('temp2-2: '+str(temp2))
 
                 for i in range(0, len(temp2)): #2022-2013
-                    print(i)
                     try:
-                        mean['생산인구 퍼센트'] += float(temp2[i][0])
-                        mean['노령인구 퍼센트'] += float(temp2[i][1])
-                        mean['생산인구 수'] += float(temp2[i][2])
-                        mean['노령인구 수'] += float(temp2[i][3])
+                        mean['생산인구 퍼센트'] += round(float(temp2[i][0]))
+                        mean['노령인구 퍼센트'] += round(float(temp2[i][1]))
+                        mean['생산인구 수'] += round(float(temp2[i][2]))
+                        mean['노령인구 수'] += round(float(temp2[i][3]))
                     except KeyError:
-                        mean['생산인구 퍼센트'] = float(temp2[i][0])
-                        mean['노령인구 퍼센트'] = float(temp2[i][1])
-                        mean['생산인구 수'] = float(temp2[i][2])
-                        mean['노령인구 수'] = float(temp2[i][3])
-                        
+                        mean['생산인구 퍼센트'] = round(float(temp2[i][0]))
+                        mean['노령인구 퍼센트'] = round(float(temp2[i][1]))
+                        mean['생산인구 수'] = round(float(temp2[i][2]))
+                        mean['노령인구 수'] = round(float(temp2[i][3]))
+                
                 sys.stderr.write('\nmean2: '+str(mean)) #이제 나누기
-        #sys.stderr.write('mean3: '+str(mean))
-        #percent_data = [[mean], []]
-        percent_data = [['임시1', 1234],['임시2', 4567]]
+                
+                mean['생산인구 퍼센트'] /= 10
+                mean['노령인구 퍼센트'] /= 10
+                mean['생산인구 수'] /= 10
+                mean['노령인구 수'] /= 10
+                
+                
+                sys.stderr.write('\nmean3: '+str(mean))
+        percent_data = list(mean.items())
+        sys.stderr.write('\npercert_data: '+str(percent_data))
+        #mean2: {'생산인구 퍼센트': 726, '노령인구 퍼센트': 144, '생산인구 수': 37316, '노령인구 수': 7341}
+        #mean3: {'생산인구 퍼센트': 72.6, '노령인구 퍼센트': 14.4, '생산인구 수': 3731.6, '노령인구 수': 734.1}
+        #percert_data: ['생산인구 퍼센트', '노령인구 퍼센트', '생산인구 수', '노령인구 수']
+        #
+        #percent_data = [['임시1', 1234],['임시2', 4567]]
     return [birth_death_data, age_data, percent_data]
 
 def get_plot(branch, mark, year):
@@ -225,6 +238,7 @@ def get_plot(branch, mark, year):
     age_source = ColumnDataSource(age_df)
     per_source = ColumnDataSource(per_df)
 
+    #조건만들기 
     p1 = figure(y_range=bd_df['type'], title=Title(text='%d년 출생아 수 사망자 수'%int(year), align="center", text_font_size="22px", text_font="Consolas", text_font_style="bold"), height=500, width=500)
     p1.hbar(y='type', right='value', height=0.3, color=Spectral4[1], source=bd_source)
     p1.xaxis.formatter = NumeralTickFormatter(format="0.0")
