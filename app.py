@@ -124,7 +124,7 @@ def testwnwapp():
 
 #다른 구조간 구분 - opencsv1 > 가로행
 #                - opencsv2 > 세로행
-def opencsv1(branch ,mark, year):
+def opencsv(branch ,mark, year):
     import csv, os
 
     cwd = os.getcwd() 
@@ -134,74 +134,74 @@ def opencsv1(branch ,mark, year):
         reader = csv.reader(f)
         birth_death_data = []
         age_data = []
-        for row in reader:
-            if len(row) == 0 or row[0][0] == '#':
-                continue
-            if row[0] == '출생아수' or row[0] == '사망자수':
-                birth_death_data.append(row)
-            if row[0] == '생산가능인구(15-64)' or row[0] == '고령인구(65-)':
-                age_data.append(row)
-            if row[0] == 'births' or row[0] == 'deaths':
-                birth_death_data.append(row)
-            elif row[0] == 'work_demo' or row[0] == 'nonwork_demo':
-                age_data.append(row)
-           
-    return [birth_death_data, age_data]
 
-def opencsv2(branch ,mark, year):
-    import csv, os
-    import numpy as np
-    
-    cwd = os.getcwd() 
-    path = os.path.join(cwd, '.\\config\\'+ branch +'\\'+mark+'\\')
-    temp1 = []
-    temp2 = []
-    mean = {}
-    with open( path + str(year) + '.csv', encoding='utf-8') as f:
-        reader = csv.reader(f)
-        percent_data = []
-        age_data = []
-        for row in reader:
-                #각 항목 당 하나하나 
-            if row[0].isnumeric():
-                for i in range(1, 5):
-                    temp1.append(row[i])
+        if branch is 'birth_death':
+            if mark is 'over':#over에서의 동작
+                pass
+            else: #under에서의 동작
+                for row in reader:
+                    if len(row) == 0 or row[0][0] == '#':
+                        continue
+                    if row[0] == '출생아수' or row[0] == '사망자수':
+                        birth_death_data.append(row)
+                    if row[0] == '생산가능인구(15-64)' or row[0] == '고령인구(65-)':
+                        age_data.append(row)
+                    if row[0] == 'births' or row[0] == 'deaths':
+                        birth_death_data.append(row)
+                    elif row[0] == 'work_demo' or row[0] == 'nonwork_demo':
+                        age_data.append(row)
+                
 
-        for i in range(2022-2013):
-            temp2.append(temp1[4*i:4*(i+1)]) 
-    
-    sys.stderr.write(str(temp2))
-    '''
-    [ 
-    ['73.4', '11.9', '3701', '602'], 
-    ['73.4', '12.4', '3725', '627'], 
-    ['73.4', '12.8', '3744', '654'], 
-    ['73.4', '13.2', '3759', '675'], 
-    ['73.2', '13.8', '3757', '706'], 
-    ['72.9', '14.3', '3762', '736'], 
-    ['72.7', '14.9', '3762', '768'], 
-    ['72.1', '15.7', '3737', '815'], 
-    ['71.6', '16.6', '3702', '857']
-    ]
-    -> [1]:
-    '''
-    for i in range(len(temp2)):
-        try:
-            mean['생산인구 퍼센트'] + temp2[i][0]
-            mean['노령인구 퍼센트'] + temp2[i][1]
-            mean['생산인구 수'] + temp2[i][2]
-            mean['노령인구 수'] + temp2[i][3]
-        except KeyError:
-            mean['생산인구 퍼센트'] = temp2[i][0]
-            mean['노령인구 퍼센트'] = temp2[i][1]
-            mean['생산인구 수'] = temp2[i][2]
-            mean['노령인구 수'] = temp2[i][3]
-    sys.stderr.write(str(mean))
-    #meanint = str(int(mean.values())/len(temp2))
-    #print(meanint)
-    #sys.stderr.write()
-    sys.stderr.write(str(mean))
-    return [percent_data, age_data]
+        elif branch is 'work_nonwork':
+            temp1 = []
+            temp2 = []
+            mean = {}
+            with open( path + str(year) + '.csv', encoding='utf-8') as f:
+                reader = csv.reader(f)
+                percent_data = []
+                age_data = []
+                
+                if mark is 'over': #over 동작
+                    pass
+                else:
+                    for row in reader:
+                        if row[0].isnumeric():
+                            for i in range(1, 5):
+                                utemp1.append(row[i])
+
+                    for i in range(2022-2013):
+                        temp2.append(temp1[4*i:4*(i+1)]) 
+                
+                sys.stderr.write(str(temp2))
+                '''
+                [ 
+                ['73.4', '11.9', '3701', '602'], 
+                ['73.4', '12.4', '3725', '627'], 
+                ['73.4', '12.8', '3744', '654'], 
+                ['73.4', '13.2', '3759', '675'], 
+                ['73.2', '13.8', '3757', '706'], 
+                ['72.9', '14.3', '3762', '736'], 
+                ['72.7', '14.9', '3762', '768'], 
+                ['72.1', '15.7', '3737', '815'], 
+                ['71.6', '16.6', '3702', '857']
+                ]
+                -> [1]:
+                '''
+                for i in range(len(temp2)):
+                    try:
+                        mean['생산인구 퍼센트'] + temp2[i][0]
+                        mean['노령인구 퍼센트'] + temp2[i][1]
+                        mean['생산인구 수'] + temp2[i][2]
+                        mean['노령인구 수'] + temp2[i][3]
+                    except KeyError:
+                        mean['생산인구 퍼센트'] = temp2[i][0]
+                        mean['노령인구 퍼센트'] = temp2[i][1]
+                        mean['생산인구 수'] = temp2[i][2]
+                        mean['노령인구 수'] = temp2[i][3]
+                sys.stderr.write(str(mean))
+
+
+    return [birth_death_data, age_data, percent_data]
 
 def get_plot(branch, mark, year):
     import sys
@@ -209,10 +209,7 @@ def get_plot(branch, mark, year):
     #mark = under/over
     #branch = /birth_death/work_nonwork
     plot = []
-    if branch is 'birth_death' and mark is 'under':
-        datalist = opencsv1(branch, mark, year)
-    elif branch is 'work_nonwork':
-        datalist = opencsv2(branch, mark, year)
+    datalist = opencsv(branch, mark, year)
     xformatter = NumeralTickFormatter(format="0,0")
 
     bd_df = pd.DataFrame(datalist[0], columns=['type', 'value'])
