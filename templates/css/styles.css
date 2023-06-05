@@ -11243,9 +11243,13 @@ body {
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 400;
 }
-
+.aboutfont1{
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 400;
+  font-size: 1.05rem
+}
 .aboutfont2{
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 700;
-  font-size: 1.3rem
+  font-size: 1.7rem
 }
