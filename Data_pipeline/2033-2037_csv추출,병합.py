@@ -6,11 +6,15 @@ def load_original_data(file_path): #return 기존 csv 경로
     return pd.read_csv(file_path)
 
 def fit_prophet_model(data):    #return prophet 예측 model
-    model = Prophet(changepoint_prior_scale=0.001, seasonality_mode='multiplicative', yearly_seasonality=5)
+    model = Prophet(changepoint_prior_scale=0.0001, seasonality_mode='multiplicative', yearly_seasonality=1)
     model.fit(data)
     return model
 
-def predict_future_data(model, future_dates): #return 5개년에 대한 예측 value
+def predict_birth_future_data(model, future_dates): #return 5개년에 대한 예측 upper_value
+    forecast = model.predict(pd.DataFrame({'ds': future_dates}))
+    return forecast['yhat_upper'].astype(int)
+
+def predict_death_future_data(model, future_dates): #return 5개년에 대한 예측 value
     forecast = model.predict(pd.DataFrame({'ds': future_dates}))
     return forecast['yhat'].astype(int)
 
@@ -33,27 +37,27 @@ def combine_data(first_data_path, new_data_path, combined_data_path): #추출한
     combined_data = pd.concat([first_data, new_data], ignore_index=True)
     combined_data.to_csv(combined_data_path, index=False)
 
-start_year = 2023
-end_year = 2027
+start_year = 2032
+end_year = 2037
 
-predicted_data = load_original_data('../tool/first_data.csv')
+predicted_data = load_original_data('../tool/birth&death_data/-2032data.csv')
 
 m_births = fit_prophet_model(predicted_data[['year', 'births']].rename(columns={'year': 'ds', 'births': 'y'}))
 m_deaths = fit_prophet_model(predicted_data[['year', 'deaths']].rename(columns={'year': 'ds', 'deaths': 'y'}))
 
 future_dates = pd.date_range(start=str(start_year - 1), end=str(end_year + 1), freq='Y')
 
-forecast_births = predict_future_data(m_births, future_dates)
-forecast_deaths = predict_future_data(m_deaths, future_dates)
+forecast_births = predict_birth_future_data(m_births, future_dates)
+forecast_deaths = predict_death_future_data(m_deaths, future_dates)
 
 data = create_yearly_data(start_year, end_year)
 data = fill_predicted_data(data, range(start_year, end_year + 1), forecast_births, forecast_deaths)
 
-extract_data_to_csv(data, '../tool/2023-2027data.csv')
+extract_data_to_csv(data, '../tool/birth&death_data/tempdata.csv')
 
-first_data = pd.read_csv('../tool/first_data.csv')
-new_data = pd.read_csv('../tool/2023-2027data.csv')
+first_data = pd.read_csv('../tool/birth&death_data/-2032data.csv')
+new_data = pd.read_csv('../tool/birth&death_data/tempdata.csv')
 
-combine_data('../tool/first_data.csv', '../tool/2023-2027data.csv', '../tool/second_data.csv')
+combine_data('../tool/birth&death_data/-2032data.csv', '../tool/birth&death_data/tempdata.csv', '../tool/birth&death_data/-2037data.csv')
 
-os.remove('../tool/2023-2027data.csv')
+os.remove('../tool/birth&death_data/tempdata.csv')
