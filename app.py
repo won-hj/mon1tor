@@ -11,6 +11,9 @@ from bokeh.models import BasicTickFormatter, NumeralTickFormatter
 from bokeh.models import ColumnDataSource, HoverTool, Title
 from bokeh.palettes import Spectral4
 import sys
+
+from config.prediction_graph.birth_death import bdp20232027, bdp20282032
+from config.prediction_graph.work_nonwork import wnwp20232027, wnwp20282032
 app = Flask(__name__)
 
 """
@@ -19,6 +22,7 @@ localhost:5000/ 로 접속
 """
 @app.route('/', methods=['GET'])
 def hello():
+    
     return render_template('demo.html')
 
 #22~36년도의 그래프 한번에 출력
@@ -98,14 +102,11 @@ def testbd():
     #return json.dumps(json_item(plot, 'test_layout'))
     return str(plot) #None
 
-
-
-#### 해결 - FactorRange must specify a unique list of categorical factors for an axis: duplicate factors found  ####
-#해결되면 구분해서 화면에 띄워주기만 하면 된다.
+################### 13~22년도 과거 통계 그래프
 @app.route('/testbdapp')
 def testapp():
     import sys
-    branch, mark, year = 'birth_death', 'over', 2036 #확인
+    branch, mark, year = 'birth_death', 'over', 2037 #확인
     layout = get_plot(branch, mark, year)
     return json.dumps(json_item(layout, 'test_bdapp')) 
 
@@ -118,8 +119,50 @@ def testwnwapp():
     layout = get_plot(branch, mark, year)
 
     return json.dumps(json_item(layout, 'test_wnwapp')) 
+################### 13~27년도 미래 추이 그래프
+@app.route('/testpredapp')
+def test_predict():
+    from config.prediction_graph.birth_death import bdp20232027 as g
 
-#4개 케이스 테스트 
+    data = pd.read_csv('./tool/birth&death_data/-2022data.csv')
+    p = g.ForecastPlotter(data, ['births', 'deaths'], '2023-2027')
+
+    plot = p.plot()
+
+    #return render_template()
+    return json.dumps(json_item(plot, 'prelayout1'))
+
+@app.route('/testallbdpred')
+def test_prebdall():
+    from config.prediction_graph.birth_death import bdp20332037, bdp20232027, bdp20282032
+
+
+    data1, data2, data3 = pd.read_csv('./tool/birth&death_data/-2022data.csv'), pd.read_csv('./tool/birth&death_data/-2022data.csv'), pd.read_csv('./tool/birth&death_data/-2032data.csv')
+
+    p1, p2, p3 = bdp20232027.ForecastPlotter(data1, ['births', 'deaths'], '2023-2027'), bdp20282032.ForecastPlotter(data1, ['births', 'deaths'], '2028-2032'), bdp20332037.ForecastPlotter(data1, ['births', 'deaths'], '2033-2037')
+
+    plot1, plot2, plot3 = p1.plot(), p2.plot(), p3.plot()
+
+    layout = [plot1, plot2, plot3]
+
+    return json.dumps(json_item(layout, 'testallbdpredict'))
+
+@app.route('/testallwnwpred')
+def test_prebdall():
+    from config.prediction_graph.work_nonwork import wnwp20332037, wnwp20282032, wnwp20332037
+
+
+    data1, data2, data3 = pd.read_csv('./tool/birth&death_data/-2022data.csv'), pd.read_csv('./tool/birth&death_data/-2022data.csv'), pd.read_csv('./tool/birth&death_data/-2032data.csv')
+
+    p1, p2, p3 = wnwp20232027.ForecastPlotter(data1, ['births', 'deaths'], '2023-2027'), wnwp20282032.ForecastPlotter(data1, ['births', 'deaths'], '2028-2032'), wnwp20332037.ForecastPlotter(data1, ['births', 'deaths'], '2033-2037')
+
+    plot1, plot2, plot3 = p1.plot(), p2.plot(), p3.plot()
+
+    layout = [plot1, plot2, plot3]
+
+    return json.dumps(json_item(layout, 'testallwnwpredict'))
+############################################3
+#4개 케이스 테스트 - 확인
 def opencsv(branch ,mark, year):
     import csv, os
 
@@ -152,65 +195,7 @@ def opencsv(branch ,mark, year):
                 
 
     elif branch is 'work_nonwork':
-        '''            
-                with open( path + str(year) + '.csv', encoding='utf-8') as f:
-                reader = csv.reader(f)
-                percent_data = []
-                age_data = []
-
-                if mark is 'over': #over 동작
-                    for row in reader:
-                        lenrow = len(row)
-                        if row[0].isnumeric():
-                            for i in range(1, 3):
-                                temp1.append(row[i])
-                    print('lenrow' + str(lenrow))
-                    for i in range(3): #2개있어서 
-                        temp2.append(temp1[2*i:2*(i+1)]) 
-
-                    for i in range(len(temp2)+1):
-                        try:
-                            mean['생산인구 수'] + temp2[i][2]
-                            mean['노령인구 수'] + temp2[i][3]
-                        except KeyError:
-                            mean['생산인구 수'] = temp2[i][2]
-                            mean['노령인구 수'] = temp2[i][3]
-                    pass
-                else: #under
-                    for row in reader:
-                        if row[0].isnumeric():
-                            for i in range(1, 5):
-                                temp1.append(row[i])
-
-                    for i in range(2022-2013+1):
-                        temp2.append(temp1[4*i:4*(i+1)]) 
-                
-                for i in range(0, len(temp2)): #2022-2013
-                    try:
-                        mean['생산인구 퍼센트'] += round(float(temp2[i][0]))
-                        mean['노령인구 퍼센트'] += round(float(temp2[i][1]))
-                        mean['생산인구 수'] += round(float(temp2[i][2]))
-                        mean['노령인구 수'] += round(float(temp2[i][3]))
-                    except KeyError:
-                        mean['생산인구 퍼센트'] = round(float(temp2[i][0]))
-                        mean['노령인구 퍼센트'] = round(float(temp2[i][1]))
-                        mean['생산인구 수'] = round(float(temp2[i][2]))
-                        mean['노령인구 수'] = round(float(temp2[i][3]))
-                
-                sys.stderr.write('\nmean2: '+str(mean)) #이제 나누기
-                
-                try:
-                    mean['생산인구 퍼센트'] /= 10
-                    mean['노령인구 퍼센트'] /= 10
-                    mean['생산인구 수'] /= 10
-                    mean['노령인구 수'] /= 10
-                except KeyError:
-                    mean['생산인구 수'] /= 10
-                    mean['노령인구 수'] /= 10
-                
-        percent_data = list(mean.items())
-        '''
-        if mark is 'over':
+        if mark == 'over':
             age_data = get_dfdata(flag=0, branch=branch, path=path, year=year)
             pass
         else:
@@ -294,7 +279,7 @@ def get_dfdata(flag, branch, path, year): #flag 1: 4, 0:2
                 except KeyError:
                     mean[type1] = round(float(temp2[i][0]))
                     mean[type2] = round(float(temp2[i][1]))
-            elif sep is 4:
+            elif sep == 4:
                 try:
                     mean[type1] += round(float(temp2[i][0]))
                     mean[type2] += round(float(temp2[i][1]))
