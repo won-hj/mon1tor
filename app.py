@@ -51,8 +51,6 @@ def graph_example():
 #13~22년도의 그래프 각각 출력
 @app.route('/testgraph') #보류
 def testgraph():
-    # 여기선 gridplot 만 가져와서 입력
-    #from src.PastGraph import pastgraph 
     from src import PastGraph as pg
 
     mark = 'under' #over/under
@@ -84,10 +82,9 @@ def testgraph():
     p2.add_tools(HoverTool(tooltips=[("Type", "@type"), ("Value", "@value")])) #p1과 동일한 내용의 코드
 
     layout = gridplot([[p1, p2]])
-    #self.plot = layout
+
     print(layout)
     return json.dumps(json_item(layout, 'test_layout'))
-    #return str(plot) # None
 
 
 @app.route('/testbd') #보류
@@ -171,9 +168,9 @@ def opencsv(branch ,mark, year):
                             for i in range(1, 5):
                                 temp1.append(row[i])
                     print('lenrow' + str(lenrow))
-                    for i in range(4): #4개있어서 
+                    for i in range(2): #2개있어서 
                         temp2.append(temp1[2*i:2*(i+1)]) 
-                    
+                    sys.stderr.write('temp2-1: '+str(temp2))
                     for i in range(len(temp2)):
                         try:
                             mean['생산인구 수'] + temp2[i][2]
@@ -181,7 +178,7 @@ def opencsv(branch ,mark, year):
                         except KeyError:
                             mean['생산인구 수'] = temp2[i][2]
                             mean['노령인구 수'] = temp2[i][3]
-                    sys.stderr.write(str(mean))
+                    sys.stderr.write('mean1: '+ str(mean))
                     pass
                 else: #under
                     for row in reader:
@@ -192,42 +189,30 @@ def opencsv(branch ,mark, year):
                     for i in range(2022-2013):
                         temp2.append(temp1[4*i:4*(i+1)]) 
                 
-                sys.stderr.write(str(temp2))
-                '''
-                [ 
-                ['73.4', '11.9', '3701', '602'], 
-                ['73.4', '12.4', '3725', '627'], 
-                ['73.4', '12.8', '3744', '654'], 
-                ['73.4', '13.2', '3759', '675'], 
-                ['73.2', '13.8', '3757', '706'], 
-                ['72.9', '14.3', '3762', '736'], 
-                ['72.7', '14.9', '3762', '768'], 
-                ['72.1', '15.7', '3737', '815'], 
-                ['71.6', '16.6', '3702', '857']
-                ]
-                -> [1]:
-                '''
-                for i in range(len(temp2)):
-                    try:
-                        mean['생산인구 퍼센트'] + temp2[i][0]
-                        mean['노령인구 퍼센트'] + temp2[i][1]
-                        mean['생산인구 수'] + temp2[i][2]
-                        mean['노령인구 수'] + temp2[i][3]
-                    except KeyError:
-                        mean['생산인구 퍼센트'] = temp2[i][0]
-                        mean['노령인구 퍼센트'] = temp2[i][1]
-                        mean['생산인구 수'] = temp2[i][2]
-                        mean['노령인구 수'] = temp2[i][3]
-                sys.stderr.write(str(mean))
+                sys.stderr.write('temp2-2: '+str(temp2)) #168???
 
+                for i in range(0, len(temp2)): #2022-2013
+                    print(i)
+                    try:
+                        mean['생산인구 퍼센트'] += float(temp2[i][0])
+                        mean['노령인구 퍼센트'] += float(temp2[i][1])
+                        mean['생산인구 수'] += float(temp2[i][2])
+                        mean['노령인구 수'] += float(temp2[i][3])
+                    except KeyError:
+                        mean['생산인구 퍼센트'] = float(temp2[i][0])
+                        mean['노령인구 퍼센트'] = float(temp2[i][1])
+                        mean['생산인구 수'] = float(temp2[i][2])
+                        mean['노령인구 수'] = float(temp2[i][3])
+                        
+                sys.stderr.write('\nmean2: '+str(mean)) #이제 나누기
+        #sys.stderr.write('mean3: '+str(mean))
+        #percent_data = [[mean], []]
         percent_data = [['임시1', 1234],['임시2', 4567]]
     return [birth_death_data, age_data, percent_data]
 
 def get_plot(branch, mark, year):
     import sys
-    #year = 2013~2022/ 2022,2027,2032,2037/ 20132022
-    #mark = under/over
-    #branch = /birth_death/work_nonwork
+
     plot = []
     datalist = opencsv(branch, mark, year)
     xformatter = NumeralTickFormatter(format="0,0")
@@ -235,17 +220,10 @@ def get_plot(branch, mark, year):
     bd_df = pd.DataFrame(datalist[0], columns=['type', 'value'])
     age_df = pd.DataFrame(datalist[1], columns=['type', 'value'])
     per_df = pd.DataFrame(datalist[2], columns=['type', 'value'])
-    #sys.stderr.write('get_plot/'+ branch+mark +': '+str(datalist)) #testapp
+
     bd_source = ColumnDataSource(bd_df)
     age_source = ColumnDataSource(age_df)
     per_source = ColumnDataSource(per_df)
-    #sys.stderr.write('\nget_plot/'+ branch+mark +': '+str(datalist[0]))
-    #sys.stderr.write('\nget_plot/'+ branch+mark +': '+str(datalist[1]))
-    #sys.stderr.write('\nget_plot/'+ branch+mark +': '+str(datalist[2]))
-
-    #flag에 따라 결과값(p1, p2) 달라진다
-    if True:
-        pass
 
     p1 = figure(y_range=bd_df['type'], title=Title(text='%d년 출생아 수 사망자 수'%int(year), align="center", text_font_size="22px", text_font="Consolas", text_font_style="bold"), height=500, width=500)
     p1.hbar(y='type', right='value', height=0.3, color=Spectral4[1], source=bd_source)
@@ -259,7 +237,7 @@ def get_plot(branch, mark, year):
     p2.xaxis.formatter = xformatter
     p2.add_tools(HoverTool(tooltips=[("Type", "@type"), ("Value", "@value")])) #p1과 동일한 내용의 코드
     ####
-    p3 = figure(y_range=per_df['type'], title=Title(text="2013~2022년 생산가능 인구와 \n고령인구 수(단위 : 백 명)", align="center", text_font_size="22px", text_font="Consolas", text_font_style="bold"), height=500, width=500)
+    p3 = figure(y_range=per_df['type'], title=Title(text="%d년 생산가능 인구와 \n고령인구 수(단위 : 백 명)"%int(year), align="center", text_font_size="22px", text_font="Consolas", text_font_style="bold"), height=500, width=500)
     p3.hbar(y='type', right='value', height=0.3, color=Spectral4[3], source=per_source)
     p3.xaxis.formatter = NumeralTickFormatter(format="0,0")
     p3.xaxis.formatter = xformatter
