@@ -119,9 +119,6 @@ def testwnwapp():
     return json.dumps(json_item(layout, 'test_wnwapp')) 
 
 #4개 케이스 테스트 
-
-#다른 구조간 구분 - opencsv1 > 가로행
-#                - opencsv2 > 세로행
 def opencsv(branch ,mark, year):
     import csv, os
 
@@ -132,12 +129,18 @@ def opencsv(branch ,mark, year):
         reader = csv.reader(f)
         birth_death_data = []
         age_data = []
-
+        temp1 = []
+        temp2 = []
+        global mean
+        mean = {}
+        
         if branch is 'birth_death':
-            if mark is 'over':#over에서의 동작
-                pass
-            else: #under에서의 동작
-                for row in reader:
+            for row in reader:
+                if mark is 'over':#over에서의 동작
+                    birth_death_data = get_dfdata(reader=reader, flag=0, branch=branch)
+                    
+                else: #under에서의 동작
+                #
                     if len(row) == 0 or row[0][0] == '#':
                         continue
                     if row[0] == '출생아수' or row[0] == '사망자수':
@@ -151,17 +154,10 @@ def opencsv(branch ,mark, year):
                 
 
         elif branch is 'work_nonwork':
-            temp1 = []
-            temp2 = []
-            global mean
-            mean = {}
             with open( path + str(year) + '.csv', encoding='utf-8') as f:
                 reader = csv.reader(f)
                 percent_data = []
                 age_data = []
-
-                #lenrow = len(row)
-                #print('lenrow' + str(lenrow))
 
                 if mark is 'over': #over 동작
                     for row in reader:
@@ -172,7 +168,7 @@ def opencsv(branch ,mark, year):
                     print('lenrow' + str(lenrow))
                     for i in range(3): #2개있어서 
                         temp2.append(temp1[2*i:2*(i+1)]) 
-                    sys.stderr.write('temp2-1: '+str(temp2))
+
                     for i in range(len(temp2)+1):
                         try:
                             mean['생산인구 수'] + temp2[i][2]
@@ -180,7 +176,6 @@ def opencsv(branch ,mark, year):
                         except KeyError:
                             mean['생산인구 수'] = temp2[i][2]
                             mean['노령인구 수'] = temp2[i][3]
-                    sys.stderr.write('mean1: '+ str(mean))
                     pass
                 else: #under
                     for row in reader:
@@ -191,8 +186,6 @@ def opencsv(branch ,mark, year):
                     for i in range(2022-2013+1):
                         temp2.append(temp1[4*i:4*(i+1)]) 
                 
-                sys.stderr.write('temp2-2: '+str(temp2))
-
                 for i in range(0, len(temp2)): #2022-2013
                     try:
                         mean['생산인구 퍼센트'] += round(float(temp2[i][0]))
@@ -207,25 +200,20 @@ def opencsv(branch ,mark, year):
                 
                 sys.stderr.write('\nmean2: '+str(mean)) #이제 나누기
                 
-                mean['생산인구 퍼센트'] /= 10
-                mean['노령인구 퍼센트'] /= 10
-                mean['생산인구 수'] /= 10
-                mean['노령인구 수'] /= 10
+                try:
+                    mean['생산인구 퍼센트'] /= 10
+                    mean['노령인구 퍼센트'] /= 10
+                    mean['생산인구 수'] /= 10
+                    mean['노령인구 수'] /= 10
+                except KeyError:
+                    mean['생산인구 수'] /= 10
+                    mean['노령인구 수'] /= 10
                 
-                
-                sys.stderr.write('\nmean3: '+str(mean))
         percent_data = list(mean.items())
-        sys.stderr.write('\npercert_data: '+str(percent_data))
-        #mean2: {'생산인구 퍼센트': 726, '노령인구 퍼센트': 144, '생산인구 수': 37316, '노령인구 수': 7341}
-        #mean3: {'생산인구 퍼센트': 72.6, '노령인구 퍼센트': 14.4, '생산인구 수': 3731.6, '노령인구 수': 734.1}
-        #percert_data: ['생산인구 퍼센트', '노령인구 퍼센트', '생산인구 수', '노령인구 수']
-        #
-        #percent_data = [['임시1', 1234],['임시2', 4567]]
+
     return [birth_death_data, age_data, percent_data]
 
 def get_plot(branch, mark, year):
-    import sys
-
     plot = []
     datalist = opencsv(branch, mark, year)
     xformatter = NumeralTickFormatter(format="0,0")
@@ -264,6 +252,71 @@ def get_plot(branch, mark, year):
     layout = gridplot([plot])
 
     return layout
+
+def get_dfdata(reader, flag, branch): #flag 1: 4, 0:2
+    temp1, temp2 = []
+    global mean
+    mean = []
+    return_data = []
+    type1, type2, type3, type4 = ''
+
+    if flag == 1: #wnw/under
+        sep = 4
+        type1, type2, type3, type4 = '생산인구 퍼센트', '노령인구 퍼센트', '생산인구 수', '노령인구 수'
+    elif flag == 0:#etc
+        sep = 2
+        if branch == 'birth_death':
+             type1, type2 = '출생아 수', '사망자 수'
+        else:
+            type1, type2 = '생산인구 수', '노령인구 수'
+        
+    for row in reader:
+        if row[0].isnumeric():
+            if sep == 2:
+                for i in range(1, sep + 1):
+                    temp1.append(row[i])
+
+                for i in range(len(reader)): #ex)2022-2013+1
+                    temp2.append(temp1[sep*i:sep*(i+1)]) 
+                    
+                for i in range(0, len(temp2)): #2022-2013
+                    try:
+                        mean[type1] += round(float(temp2[i][0]))
+                        mean[type2] += round(float(temp2[i][1]))
+                    except KeyError:
+                        mean[type1] = round(float(temp2[i][0]))
+                        mean[type2] = round(float(temp2[i][1]))
+
+            elif sep == 4:
+                for i in range(1, sep + 1):
+                    temp1.append(row[i])
+
+                for i in range(len(reader)): #ex)2022-2013+1
+                    temp2.append(temp1[sep*i:sep*(i+1)]) 
+                    
+                for i in range(0, len(temp2)): #2022-2013
+                    try:
+                        mean[type1] += round(float(temp2[i][0]))
+                        mean[type2] += round(float(temp2[i][1]))
+                        mean[type3] += round(float(temp2[i][2]))
+                        mean[type4] += round(float(temp2[i][3]))
+                    except KeyError:
+                        mean[type1] = round(float(temp2[i][0]))
+                        mean[type2] = round(float(temp2[i][1]))
+                        mean[type3] = round(float(temp2[i][2]))
+                        mean[type4] = round(float(temp2[i][3]))
+
+    try:
+        mean[type1] /= 10
+        mean[type2] /= 10
+        mean[type3] /= 10
+        mean[type4] /= 10
+    except KeyError:
+        mean[type1] /= 10
+        mean[type2] /= 10
+         
+    return_data = list(mean.items())
+    return return_data
 
 if __name__ == '__main__':
     app.run()
