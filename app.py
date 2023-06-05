@@ -160,14 +160,34 @@ def opencsv(branch ,mark, year):
                 reader = csv.reader(f)
                 percent_data = []
                 age_data = []
-                
+
+                #lenrow = len(row)
+                #print('lenrow' + str(lenrow))
+
                 if mark is 'over': #over 동작
+                    for row in reader:
+                        lenrow = len(row)
+                        if row[0].isnumeric():
+                            for i in range(1, 5):
+                                temp1.append(row[i])
+                    print('lenrow' + str(lenrow))
+                    for i in range(4): #4개있어서 
+                        temp2.append(temp1[2*i:2*(i+1)]) 
+                    
+                    for i in range(len(temp2)):
+                        try:
+                            mean['생산인구 수'] + temp2[i][2]
+                            mean['노령인구 수'] + temp2[i][3]
+                        except KeyError:
+                            mean['생산인구 수'] = temp2[i][2]
+                            mean['노령인구 수'] = temp2[i][3]
+                    sys.stderr.write(str(mean))
                     pass
-                else:
+                else: #under
                     for row in reader:
                         if row[0].isnumeric():
                             for i in range(1, 5):
-                                utemp1.append(row[i])
+                                temp1.append(row[i])
 
                     for i in range(2022-2013):
                         temp2.append(temp1[4*i:4*(i+1)]) 
@@ -200,7 +220,7 @@ def opencsv(branch ,mark, year):
                         mean['노령인구 수'] = temp2[i][3]
                 sys.stderr.write(str(mean))
 
-
+        percent_data = [['임시1', 1234],['임시2', 4567]]
     return [birth_death_data, age_data, percent_data]
 
 def get_plot(branch, mark, year):
