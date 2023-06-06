@@ -63,7 +63,7 @@ def extract_word(text): #return 특수기호 제거 result
     result = hangul.sub(' ',text)
     return result
 
-@app.route('/predict', methods=['POST'])
+@app.route('/prediction', methods=['POST'])
 def predict():
     age = int(request.form['age'])
     key = None
@@ -84,6 +84,7 @@ def predict():
 
     news_all = pd.DataFrame(columns=['PubDate','Title','Link','Description'])
     for k in key:
+
         search = keyword(k, 5)
         news = info(search)
         basic_clear(news['Title'])
