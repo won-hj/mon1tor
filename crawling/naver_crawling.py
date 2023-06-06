@@ -6,7 +6,7 @@ from matplotlib import pyplot as plt
 import requests
 import pandas as pd
 import numpy as np
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -63,26 +63,21 @@ def extract_word(text): #return 특수기호 제거 result
     result = hangul.sub(' ',text)
     return result
 
-def home():
-    search = keyword('저출산 산업',5)
-    news = info(search)
-    basic_clear(news['Title'])
-    basic_clear(news['Description'])
-
-    length = len(news['Title'])-1
-
-    for i in range(length):
-        if news['Title'].iloc[i][:8] == news['Title'].iloc[i+1][8]:
-            news['Title'].iloc[i] = np.NaN
-    news.dropna(inplace=True)
-
-    for i in range (len(news['Title'])):
-        news['Title'].iloc[i] = extract_word(news['Title'].iloc[i])
-        news['Description'].iloc[i] = extract_word(news['Description'].iloc[i])
-
-    news['Link'] = '<a href="'+ news['Link'] + '">Go to link</a>'
-    news_html = news.to_html(escape=False)
-    return render_template('home.html', table=news_html)
-
-if __name__ == '__main__':
-    app.run()
+@app.route('/predict', methods=['POST'])
+def predict():
+    age = int(request.form['age'])
+    key = None
+    if age >= 15 and age < 17:
+        key = ['저출산', '학교 인구 변화']
+    elif age >= 17 and age < 19:
+        key = ['대학교']
+    elif age >= 19 and age < 25:
+        key = ['저출산 산업','고령화 산업']
+    elif age >= 25 and age < 29:
+        key = ['실버 산업','고령화']
+    elif age >= 29 and age < 35:
+        key = ['고령화 사업','저출산 사업']
+    elif age >= 35 and age < 45:
+        key = ['고령화 변화','저출산 변화']
+    elif age >= 45 and age < 65:
+        key =['실버 산업','인구 변화']
