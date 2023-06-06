@@ -24,3 +24,14 @@ window.addEventListener('DOMContentLoaded', event => {
     }
 
 });
+function goToPrediction() {
+    var age = document.getElementById("ageInput").value;
+    window.location.href = "/prediction?age=" + age;
+}
+var input = document.getElementById("ageInput");
+input.addEventListener("keyup", function(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    document.getElementById("goButton").click();
+  }
+});
