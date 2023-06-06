@@ -38,7 +38,7 @@ def combine_data(first_data_path, new_data_path, combined_data_path): #추출한
     combined_data.to_csv(combined_data_path, index=False)
 
 start_year = 2032
-end_year = 2036
+end_year = 2037
 
 predicted_data = load_original_data('../tool/birth&death_data/-2032data.csv')
 
@@ -58,6 +58,6 @@ extract_data_to_csv(data, '../tool/birth&death_data/tempdata.csv')
 first_data = pd.read_csv('../tool/birth&death_data/-2032data.csv')
 new_data = pd.read_csv('../tool/birth&death_data/tempdata.csv')
 
-combine_data('../tool/birth&death_data/-2032data.csv', '../tool/birth&death_data/tempdata.csv', '../tool/birth&death_data/-2036data.csv')
+combine_data('../tool/birth&death_data/-2032data.csv', '../tool/birth&death_data/tempdata.csv', '../tool/birth&death_data/-2037data.csv')
 
 os.remove('../tool/birth&death_data/tempdata.csv')

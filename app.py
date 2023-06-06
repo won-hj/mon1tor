@@ -1,20 +1,26 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template
+
 app = Flask(__name__)
 
-@app.route('/', methods=['GET'])
+@app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/prediction', methods=['POST'])
-def predict():
-    # 나이 입력 받아오기
-    age = int(request.form['age'])
+@app.route('/login')
+def login():
+    return render_template('login.html')
 
-    # 예측 결과 계산하기 (이 부분은 실제 코드로 대체)
+@app.route('/past_graph1')
+def past_graph1():
+    return render_template('past_graph1.html')
 
-    # 예측 결과를 HTML 페이지에 렌더링
-    return render_template('prediction.html', table=age)  
+@app.route('/past_graph2')
+def past_graph2():
+    return render_template('past_graph2.html')
 
+@app.route('/prediction')
+def prediction():
+    return prediction('prediction.html')
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run()

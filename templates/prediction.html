@@ -8,12 +8,12 @@
         <meta name="author" content="" />
         <title></title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-        <link href="css/styles.css" rel="stylesheet" />
+        <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed aboutfont">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <a class="navbar-brand ps-3" href="index.html">
+            <a class="navbar-brand ps-3" href="{{ url_for('index') }}">
                 <img src="image/logo.png" alt="MON2TOR logo" style="height: 30px; width: auto;">
                 MON2TOR
             </a>
@@ -21,9 +21,9 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="login.html">로그인</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('login') }}">로그인</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="index.html">로그아웃</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('index') }}">로그아웃</a></li>
                     </ul>
                 </li>
             </ul>
@@ -46,7 +46,7 @@
         <footer class="py-4 bg-light mt-auto">
             <div class="container-fluid px-4">
                 <div class="d-flex align-items-center justify-content-between small">
-                    <div class="text-muted">Copyright © 2023 MON2TOR. All rights reserved.</div>
+                    <div class="text-muted">&copy; 2023 MON2TOR. All rights reserved.</div>
                     <div>
                         <a href="#">Privacy Policy</a>
                         ·
