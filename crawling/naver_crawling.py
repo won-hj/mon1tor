@@ -81,3 +81,27 @@ def predict():
         key = ['고령화 변화','저출산 변화']
     elif age >= 45 and age < 65:
         key =['실버 산업','인구 변화']
+
+    news_all = pd.DataFrame(columns=['PubDate','Title','Link','Description'])
+    for k in key:
+        search = keyword(k, 5)
+        news = info(search)
+        basic_clear(news['Title'])
+        basic_clear(news['Description'])
+        length = len(news['Title'])-1
+
+        for i in range(length):
+            if news['Title'].iloc[i][:8] == news['Title'].iloc[i+1][:8]:
+                news['Title'].iloc[i] = np.NaN
+        news.dropna(inplace=True)
+
+        for i in range(len(news['Title'])):
+            news['Title'].iloc[i] = extract_word(news['Title'].iloc[i])
+            news['Description'].iloc[i] = extract_word(news['Description'].iloc[i])
+
+        news['Link'] = '<a href="'+ news['Link'] + '">링크</a>'
+        news_all = pd.concat([news_all, news])
+
+    news_html = news_all.to_html(escape=False)
+
+    return render_template('prediction.html', table=news_html)
