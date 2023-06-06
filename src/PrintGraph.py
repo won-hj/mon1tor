@@ -12,9 +12,7 @@ from configparser import ConfigParser
 
 #################################
 parser = ConfigParser()
-parser.read('../config/config.ini', encoding='utf-8')
-
-
+parser.read('./config/config.ini', encoding='utf-8')
 #configparser 테스트
 '''
     $ python PrintGraph.py 
@@ -23,6 +21,7 @@ parser.read('../config/config.ini', encoding='utf-8')
     'config/work_nonwork/over2022'
     'config/work_nonwork/under2022'
 '''
+##################################
 test = ['birthover', 'birthunder', 'workover', 'workunder']
 
 def get_cp():
@@ -41,20 +40,20 @@ def get_files(path, option=0):
     if option == 0:
         return os.listdir(dir_list)
     else:
-        return len(os.listdir(dir_list)) 
+        return len(os.listdir(dir_list))    
 
 def get_location():
     cwd = os.getcwd() 
-    path = os.path.join(cwd, '.\\config\\birth_death\\under2022\\')
+    path = os.path.join(cwd, '.\\config\\birth_death\\under\\')
     return path
 
 # 딕셔너리에 {년도:데이터리스트} 로 저장
 def get_csv():
     file = get_files(get_location(), 0)
+    file_len = get_files(get_location(), 1)
     set_figure = {} 
     
-    for i in range(len(file)): 
-                    # './../config/birth_death/under2022/'
+    for i in range(file_len ): 
         with open (get_location()+ str(2013+i) +'.csv', encoding='UTF-8') as f:
             reader = csv.reader(f)
             birth_death_data = []
@@ -64,12 +63,16 @@ def get_csv():
                     continue
                 if row[0] == '출생아수' or row[0] == '사망자수':
                     birth_death_data.append(row)
+                if row[0] == 'work_demo' or row[0] == 'nonwork_demo':
+                    birth_death_data.append(row)
                 elif row[0] == '생산가능인구(15-64)' or row[0] == '고령인구(65-)':
                     age_data.append(row)
                 set_figure[file[i]] = [birth_death_data, age_data]
-    
     return set_figure
     
+
+
+
 '''
     def test_location():
         return '../tool/'

@@ -3,9 +3,10 @@ import json
 import math
 from bokeh.layouts import gridplot
 from flask import Flask, render_template
-from bokeh.embed import json_item
-from bokeh.plotting import figure
+from bokeh.embed import json_item, autoload_static, file_html, components
+from bokeh.plotting import figure, show
 from bokeh.resources import CDN
+from flask.blueprints import T_before_request
 import pandas as pd
 from bokeh.models import BasicTickFormatter, NumeralTickFormatter
 from bokeh.models import ColumnDataSource, HoverTool, Title
@@ -20,11 +21,41 @@ app = Flask(__name__)
 @app.route에 설정된 '/' 로 접속하면 hello world 출력
 localhost:5000/ 로 접속
 """
-@app.route('/', methods=['GET'])
+@app.route('/hello', methods=['GET'])
 def hello():
     
-    return render_template('demo.html')
+    return render_template('demo.html', test='testConponents!!!', name='name??')
+###############################################
+@app.route('/wnwtest', methods=['GET', 'POST'])
+def wnwtest():
+    import sys
+    from past_graph import past_work_nonwork_graph as g
 
+    df = pd.read_csv('./tool/work&nonwork_data/2013-2022data.csv')
+    df['Year'] = df['Year'].astype(str) 
+
+    columns_titles_colors = [
+        ('work_percent', '생산인구(%):15-64세', Spectral4[1]),
+        ('nonwork_percent', '고령인구(%):65세 이상', Spectral4[2]),
+    ]
+
+    description = '*대한민국 전체 인구가 100%라고 가정했을 때 비율<br>*지방 중소도시 : 50만 이하의 인구<br>*생산인구 1%당 약 16만명 감소 생산인구로만 구성된 약 1개 중소도시 삭제<br>*고령인구 1%당 약 73만명 증가 고령인구로만 구성된 약 1개 중소도시 생성'
+
+    layout = g.create_graph(df, columns_titles_colors, description)
+
+    script, div = components(layout)
+    sys.stderr.write('div: '+str(div))
+    sys.stderr.write('script: \n'+str(script))
+    
+    return render_template('example.html',script=script, div=div)#, test='testwnwcomp'
+    #show(layout)
+    #return render_template('example.html', )
+    #return file_html()
+
+@app.route('/comp')
+def comp():
+    return render_template('example.html', test=1)
+###############################################
 #22~36년도의 그래프 한번에 출력
 @app.route('/graph_example')
 def graph_example():
@@ -52,7 +83,8 @@ def graph_example():
     #sys.stderr.write('graph_ex: ' + str(plot_list))
     layout = gridplot([plot_list])
 
-    return json.dumps(json_item(layout, 'layout'))
+    #return json.dumps(json_item(layout, 'layout'))
+    return render_template('example.html', name='name!')
 
 #13~22년도의 그래프 각각 출력
 @app.route('/testgraph') #보류
@@ -163,7 +195,9 @@ def test_prewnwall():
 
     #layout = [plot1, plot2, plot3]
 
-    return json.dumps(json_item(plot1, 'testallwnwpredict'))
+    #return json.dumps(json_item(plot1, 'testallwnwpredict'))
+    #return html 넘기는 방식 
+    #return render_template(plot1)
 ######################################3
 ############################################
 #테스트용 
@@ -326,6 +360,7 @@ def get_dfdata(flag, branch, path, year): #flag 1: 4, 0:2
     return return_data
 
 if __name__ == '__main__':
+    app.before_request(T_before_request)
     app.run()
 
 

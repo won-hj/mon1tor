@@ -40,7 +40,7 @@ class ForecastPlotter:
         p = figure(title=Title(text=self.title, align="center", text_font_size="22px", text_font="Consolas", text_font_style="bold"),
                 x_axis_type='datetime', width=800, height=400)
 
-        p.xaxis.ticker = FixedTicker(ticks=(pd.date_range(start='2013', end='2037', freq='YS').astype(int) / 10**6 ))
+        p.xaxis.ticker = FixedTicker(ticks=pd.date_range(start='2013', end='2037', freq='YS').astype(int) / 10**6 )
         p.xaxis.formatter = DatetimeTickFormatter(years='%Y')
 
         source_work = ColumnDataSource(data=dict(

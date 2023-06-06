@@ -1,16 +1,23 @@
-#여기서 filepath 가지고 왔다갔다..
 from typing import Any
-import FilePath as fp
-from past_graph import *
+from src.transition import birthdeath 
 
 #fp('config/birth_death/over2022')
 class pastgraph:
-    def __init__(self, config) -> None:
-        pass
-        self.config = config
+    def __init__(self, mark) -> None:
+        pass     #mark -> under/over; '\\under/over\\'
+        self.bd = birthdeath.birthdeath('\\'.join(mark + '\\')) 
+        print('\\'.join(mark + '\\'))
         
     def print(self):
         pass
+
+    def get_plot(self, year):
+        return self.bd.get_data(year)
+
+        #return self.plot
+
+        
+        
         
     
 
