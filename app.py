@@ -20,7 +20,7 @@ def past_graph2():
 
 @app.route('/prediction')
 def prediction():
-    return prediction('prediction.html')
+    return render_template('prediction.html')
 
 if __name__ == "__main__":
     app.run()

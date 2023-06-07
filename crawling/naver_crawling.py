@@ -63,11 +63,7 @@ def extract_word(text): #return 특수기호 제거 result
     result = hangul.sub(' ',text)
     return result
 
-<<<<<<< HEAD
-@app.route('/prediction', methods=['POST'])
-=======
 @app.route('/predict', methods=['POST'])
->>>>>>> 392701b9501430a16107a91e208666a3cc41ebba
 def predict():
     age = int(request.form['age'])
     key = None
