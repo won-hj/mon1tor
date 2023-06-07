@@ -24,7 +24,8 @@ def create_graph(df, columns_titles_colors, description): #girdplot 구성과 �
         [grid],
         [desc_div]
     ])
-    #return show(l)
+    #show(l)._repr_html_()
+    
     return l
 
 if __name__ == '__main__':
