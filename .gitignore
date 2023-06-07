@@ -1,4 +1,5 @@
 __pycache__
 .homekey
 .vscode
-past_graph
+src/prediction
+src/transition/*

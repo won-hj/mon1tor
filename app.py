@@ -6,26 +6,57 @@ from flask import Flask, render_template
 from bokeh.embed import json_item, autoload_static, file_html, components
 from bokeh.plotting import figure, show
 from bokeh.resources import CDN
-from flask.blueprints import T_before_request
+from flask import request
 import pandas as pd
 from bokeh.models import BasicTickFormatter, NumeralTickFormatter
 from bokeh.models import ColumnDataSource, HoverTool, Title
 from bokeh.palettes import Spectral4
-
+import sys
 
 from config.prediction_graph.birth_death import bdp20232027, bdp20282032
 from config.prediction_graph.work_nonwork import wnwp20232027, wnwp20282032
+
 app = Flask(__name__)
 
 """
 @app.route에 설정된 '/' 로 접속하면 hello world 출력
 localhost:5000/ 로 접속
 """
-@app.route('/hello', methods=['GET'])
+@app.route('/hello')
 def hello():
     
     return render_template('demo.html', test='testConponents!!!', name='name??')
 ###############################################
+###################### f i x w e b #########################
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/past_graph1')
+def past_graph1():
+
+    return render_template('past_graph1.html')
+
+@app.route('/past_graph2')
+def past_graph2():
+    #수정
+    #if request.method == 'GET':
+        render_template('past_graph2.html')
+#
+    #elif request.method == 'POST':
+    #    value = request.form['ageInput']
+    #    return render_template('past_graph2.html', age = value)
+
+@app.route('/prediction')
+def prediction():
+    
+    return prediction('prediction.html')
+
+############################################################
 @app.route('/wnwtest', methods=['GET', 'POST'])
 def wnwtest():
     import sys
@@ -48,9 +79,6 @@ def wnwtest():
     sys.stderr.write('script: \n'+str(script))
     
     return render_template('example.html',script=script, div=div)#, test='testwnwcomp'
-    #show(layout)
-    #return render_template('example.html', )
-    #return file_html()
 
 @app.route('/comp')
 def comp():
@@ -150,7 +178,8 @@ def testwnwapp():
     #branch, mark, year = 'birth_death', 'under', 2014 #확인
     layout = get_plot(branch, mark, year)
 
-    return json.dumps(json_item(layout, 'test_wnwapp')) 
+    #return json.dumps(json_item(layout, 'test_wnwapp')) 
+    return layout
 ################### 13~27년도 미래 추이 그래프
 @app.route('/testpredapp')
 def test_predict():
@@ -360,7 +389,6 @@ def get_dfdata(flag, branch, path, year): #flag 1: 4, 0:2
     return return_data
 
 if __name__ == '__main__':
-    app.before_request(T_before_request)
     app.run()
 
 
