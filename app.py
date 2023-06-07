@@ -1,3 +1,21 @@
+import csv
+import json
+import math
+from bokeh.layouts import gridplot
+from flask import Flask, render_template
+from bokeh.embed import json_item, autoload_static, file_html, components
+from bokeh.plotting import figure, show
+from bokeh.resources import CDN
+from flask import request
+import pandas as pd
+from bokeh.models import BasicTickFormatter, NumeralTickFormatter
+from bokeh.models import ColumnDataSource, HoverTool, Title
+from bokeh.palettes import Spectral4
+import sys
+
+from config.prediction_graph.birth_death import bdp20232027, bdp20282032
+from config.prediction_graph.work_nonwork import wnwp20232027, wnwp20282032
+
 from flask import Flask, render_template, request, redirect, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from Models import db
@@ -85,7 +103,135 @@ def prediction():
         return render_template('prediction.html')
     
     news_descriptions = naver_crawling.predict(age)
+
     return render_template('prediction.html', descriptions=news_descriptions, age=age)
+###########################
+@app.route('/pred2327')
+def pred2327():
+    from config.prediction_graph.birth_death import bdp20232027 as g
+
+    data = pd.read_csv('./tool/birth&death_data/-2022data.csv')
+    p = g.ForecastPlotter(data, ['births', 'deaths'], '2023-2027')
+
+    plot = p.plot()
+
+    return json.dumps(json_item(plot, 'pred2327'))
+@app.route('/pred2832')
+def pred2832():
+    from config.prediction_graph.birth_death import bdp20282032 as g
+
+    data = pd.read_csv('./tool/birth&death_data/-2027data.csv')
+    p = g.ForecastPlotter(data, ['births', 'deaths'], '2028-2032')
+
+    plot = p.plot()
+
+    return json.dumps(json_item(plot, 'pred2832'))
+@app.route('/pred3337')
+def pred3337():
+    from config.prediction_graph.birth_death import bdp20332037 as g
+
+    data = pd.read_csv('./tool/birth&death_data/-2032data.csv')
+    p = g.ForecastPlotter(data, ['births', 'deaths'], '2033-2037')
+
+    plot = p.plot()
+
+    return json.dumps(json_item(plot, 'pred3337'))
+
+@app.route('/pred20232027')
+def pred20232027():
+    from config.prediction_graph.work_nonwork import wnwp20232027 as g
+    data = pd.read_csv('./tool/work&nonwork_data/-2022_data.csv')
+
+    forecast_plotter = g.ForecastPlotter(data, ['work_demo', 'nonwork_demo'], '2023-2027 생산가능인구/생산불가능인구 변화')
+    plot = forecast_plotter.plot()
+
+    return json.dumps(json_item(plot, 'pred20232027'))
+
+@app.route('/pred20282032') 
+def pred20282032():
+    from config.prediction_graph.work_nonwork import wnwp20282032 as g
+    data = pd.read_csv('./tool/work&nonwork_data/-2027_data.csv')
+
+    forecast_plotter = g.ForecastPlotter(data, ['work_demo', 'nonwork_demo'], '2028 - 2032 생산가능인구/생산불가능인구 변화')
+    plot = forecast_plotter.plot()
+
+    return json.dumps(json_item(plot, 'pred20282032'))
+
+@app.route('/pred20332037') 
+def pred20332037():
+    from config.prediction_graph.work_nonwork import wnwp20332037 as g
+    data = pd.read_csv('./tool/work&nonwork_data/-2032_data.csv')
+
+    forecast_plotter = g.ForecastPlotter(data, ['work_demo', 'nonwork_demo'], '2033 - 2037 생산가능인구/생산불가능인구 변화')
+    plot = forecast_plotter.plot()
+
+    return json.dumps(json_item(plot, 'pred20332037'))
+
+
+    from config.prediction_graph.birth_death import bdp20232027 as g
+
+    data = pd.read_csv('./tool/birth&death_data/-2022data.csv')
+    p = g.ForecastPlotter(data, ['births', 'deaths'], '2023-2027')
+
+    plot = p.plot()
+
+    return json.dumps(json_item(plot, 'pred2327'))
+#13~22년도 한번에 출력
+@app.route('/pastgraph1')
+def pastgraph1():
+    from src import PrintGraph as g 
+
+    csv = g.get_csv()
+    file_length = g.get_files(g.get_location(), 1)
+    plot_list = []
+
+    xformatter = NumeralTickFormatter(format="0,0") # x축 1000단위 ,형식 제공
+
+    for i in range(1, file_length):
+        birth_death_df = pd.DataFrame(list(csv.values())[i][0], columns=['type', 'value'])
+        age_df = pd.DataFrame(list(csv.values())[i][1], columns=['type', 'value'])
+
+        birth_death_source = ColumnDataSource(birth_death_df)
+        age_source = ColumnDataSource(age_df)
+        globals()['p{}'.format(i)] = figure(y_range=birth_death_df['type'], title=Title(text='%d년 출생아인구 수 사망자 수'%int(2013+(i-1)),align="center", text_font_size="22px", text_font="Consolas", text_font_style="bold"), height=500, width=500)
+        globals()['p{}'.format(i)].hbar(y='type', right='value', height=0.3, color=Spectral4[1], source=birth_death_source)
+        globals()['p{}'.format(i)].xaxis.formatter = NumeralTickFormatter(format="0.0")
+        globals()['p{}'.format(i)].xaxis.formatter = xformatter
+        globals()['p{}'.format(i)].add_tools(HoverTool(tooltips=[("Type", "@Type"), ("Value", "@value")]))
+        plot_list.append(globals()['p{}'.format(i)]) 
+
+    layout = gridplot(plot_list, ncols=3)
+    script, div = components(layout)
+    return json.dumps(json_item(layout, 'pastgraph1'))
+    #return render_template("prediction.html", script=script, div=div)
+
+#13~22년도 pastgraph2
+@app.route('/pastgraph2')
+def pastgraph2():
+    from flask import Response
+    #from src import PrintGraph as g
+    from past_graph.past_work_nonwork_graph import create_graph as g
+    
+    df = pd.read_csv('./tool/work&nonwork_data/2013-2022data.csv')
+    df['Year'] = df['Year'].astype(str) 
+
+    columns_titles_colors = [
+        ('work_percent', '생산인구(%):15-64세', Spectral4[1]),
+        ('nonwork_percent', '고령인구(%):65세 이상', Spectral4[2]),
+    ]
+
+    description = '*대한민국 전체 인구가 100%라고 가정했을 때 비율<br>*지방 중소도시 : 50만 이하의 인구<br>*생산인구 1%당 약 16만명 감소 생산인구로만 구성된 약 1개 중소도시 삭제<br>*고령인구 1%당 약 73만명 증가 고령인구로만 구성된 약 1개 중소도시 생성'
+    layout = g(df, columns_titles_colors, description)
+    sys.stderr.write('\ncreate graph: '+str(layout))
+    script, div = components(layout)
+    
+    #return render_template('past_graph2.html', script=script, div=div)
+    return Response(json.dumps(json_item(layout, 'pastgraph2')), mimetype='application/json')
+
+    #branch, mark, year = 'work_nonwork', 'under', 20132022
+    #layout = g.get_plot(branch, mark, year)
+
+    #return json.dumps(json_item(layout, 'pastgraph2')) 
 
 
 if __name__ == "__main__":

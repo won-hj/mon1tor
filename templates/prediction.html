@@ -10,6 +10,8 @@
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-3.1.0.min.css" type="text/css" />
+        <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-3.1.0.min.js"></script>      
     </head>
     <body class="sb-nav-fixed aboutfont">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -36,6 +38,33 @@
                             <div class="col-md-6">
                                 <h3 class="display-4" style="white-space: nowrap;">사용자님의 나이는 <span class="text-primary font-weight-bold" id="userAge"></span>살이군요!</h3>
                                 {{ descriptions | safe }}
+                                
+
+                                <div id = "pred2327"> pred2327 </div>
+                                <script>
+                                    fetch('/pred2327').then(function(response) {return response.json();}).then(function(item){Bokeh.embed.embed_item(item);}) 
+                                </script>
+                                <div id = "pred2832"> pred2832 </div>
+                                <script>
+                                    fetch('/pred2832').then(function(response) {return response.json();}).then(function(item){Bokeh.embed.embed_item(item);}) 
+                                </script>
+                                <div id = "pred3337"> pred3337 </div>
+                                <script>
+                                    fetch('/pred3337').then(function(response) {return response.json();}).then(function(item){Bokeh.embed.embed_item(item);}) 
+                                </script>
+                                <div id = "pred20232027"> pred20232027 </div>
+                                <script>
+                                     fetch('/pred20232027').then(function(response) {return response.json();}).then(function(item){Bokeh.embed.embed_item(item);}) 
+                                </script>
+                                <div id = "pred20282032"> pred20282032 </div>
+                                <script>
+                                     fetch('/pred20282032').then(function(response) {return response.json();}).then(function(item){Bokeh.embed.embed_item(item);}) 
+                                </script>
+                                <div id = "pred20332037"> pred20332037 </div>
+                                <script>
+                                     fetch('/pred20332037').then(function(response) {return response.json();}).then(function(item){Bokeh.embed.embed_item(item);}) 
+                                </script>
+
                             </div>
                         </div>
                     </div>

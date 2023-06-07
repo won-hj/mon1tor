@@ -67,14 +67,17 @@ class ForecastPlotter:
 
         self.__plot__ = p
         #show(p)
+        
         return p
+    
     def show(self):
         show(self.__plot__)
 
     def __getpath__(self, year):
         return './config/birth_death/over/'.join(year+'.csv')
-    
-data = pd.read_csv('../../tool/birth&death_data/-2032data.csv')
 
-forecast_plotter = ForecastPlotter(data, ['births', 'deaths'], '2033-2037')
-forecast_plotter.plot()
+if __name__ == "__main__":  
+    data = pd.read_csv('../../tool/birth&death_data/-2032data.csv')
+
+    forecast_plotter = ForecastPlotter(data, ['births', 'deaths'], '2033-2037')
+    forecast_plotter.plot()

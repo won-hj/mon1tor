@@ -1,0 +1,7 @@
+__pycache__
+.homekey
+.vscode
+src/prediction
+src/transition/*
+app.backup
+.gitignore
