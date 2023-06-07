@@ -15,13 +15,12 @@ client_id = "lg542JOAVw0xKmjJ1Nlf"
 client_secret = "mArt8cw08s"
 url = "https://openapi.naver.com/v1/search/news.json" # JSON 결과
 
-#display_num : 한 번에 표시할 검색 결과 개수 (default : 10 max : 100)
-def keyword(key, display_num): #return 크롤링결과 json형식 / key : 검색 단어, display_num: 가져올 페이지 개수
+def keyword(key, display_num): 
     headers = {'X-Naver-Client-Id' : client_id,
                'X-Naver-Client-Secret' : client_secret}
     params = {'query': key,
               'display':display_num,
-              'sort':'sim'} #sim:정확도 순으로 정렬(default)
+              'sort':'sim'} 
     response = requests.get(url,params=params,headers=headers)
     response_json = response.json()
     if response.status_code != 200: 
@@ -30,17 +29,15 @@ def keyword(key, display_num): #return 크롤링결과 json형식 / key : 검색
         return 
 
     r = response_json.get('items',[])
-
     return r 
 
-def info(places): #return column,row형식의 dtf
+def info(places): 
     PubDate = []
     Title = []
     Link = []
     Description = []
 
     for place in places:
-
         PubDate.append(place['pubDate'])
         Title.append(place['title'])
         Link.append(place['link'])
@@ -50,7 +47,7 @@ def info(places): #return column,row형식의 dtf
     dtf = pd.DataFrame(ar, columns=['PubDate','Title','Link','Description'])
     return dtf
 
-def basic_clear(text): # return 불필요한 기호 제거 text
+def basic_clear(text): 
     for i in range(len(text)) :
         text[i] = text[i].replace('<b>',' ')
         text[i] = text[i].replace('</b>',' ')
@@ -58,14 +55,22 @@ def basic_clear(text): # return 불필요한 기호 제거 text
         text[i] = text[i].replace('&quot;',' ')
     return text
 
-def extract_word(text): #return 특수기호 제거 result
+def extract_word(text): 
     hangul = re.compile('[^가-힣0-9]')
     result = hangul.sub(' ',text)
     return result
 
-@app.route('/predict', methods=['POST'])
-def predict():
-    age = int(request.form['age'])
+@app.route('/prediction', methods=['POST', 'GET'])
+@app.route('/prediction/<int:age>', methods=['GET'])
+def predict(age=None):
+    if request.method == 'POST':
+        age = int(request.form['age'])
+    elif request.method == 'GET' and age is not None:
+        # 'age' is already an integer
+        pass
+    else:
+        return "<h1>Please provide 'age' via POST request or in the URL.</h1>"
+
     key = None
     if age >= 15 and age < 17:
         key = ['저출산', '학교 인구 변화']
@@ -84,7 +89,6 @@ def predict():
 
     news_all = pd.DataFrame(columns=['PubDate','Title','Link','Description'])
     for k in key:
-
         search = keyword(k, 5)
         news = info(search)
         basic_clear(news['Title'])
@@ -104,5 +108,7 @@ def predict():
         news_all = pd.concat([news_all, news])
 
     news_html = news_all.to_html(escape=False)
+    return news_html
 
-    return render_template('prediction.html', table=news_html)
+if __name__ == '__main__':
+    app.run()
