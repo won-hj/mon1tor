@@ -3,3 +3,5 @@ __pycache__
 .vscode
 src/prediction
 src/transition/*
+app.backup
+.gitignore

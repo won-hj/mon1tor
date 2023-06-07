@@ -1,3 +1,21 @@
+import csv
+import json
+import math
+from bokeh.layouts import gridplot
+from flask import Flask, render_template
+from bokeh.embed import json_item, autoload_static, file_html, components
+from bokeh.plotting import figure, show
+from bokeh.resources import CDN
+from flask import request
+import pandas as pd
+from bokeh.models import BasicTickFormatter, NumeralTickFormatter
+from bokeh.models import ColumnDataSource, HoverTool, Title
+from bokeh.palettes import Spectral4
+import sys
+
+from config.prediction_graph.birth_death import bdp20232027, bdp20282032
+from config.prediction_graph.work_nonwork import wnwp20232027, wnwp20282032
+
 from flask import Flask, render_template, request, redirect, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from Models import db
@@ -86,6 +104,37 @@ def prediction():
     
     news_descriptions = naver_crawling.predict(age)
     return render_template('prediction.html', descriptions=news_descriptions, age=age)
+
+
+#13~22년도 한번에 출력
+@app.route('/pastgraph1')
+def pastgraph1():
+    from src import PrintGraph as g 
+
+    csv = g.get_csv()
+    file_length = g.get_files(g.get_location(), 1)
+    plot_list = []
+
+    xformatter = NumeralTickFormatter(format="0,0") # x축 1000단위 ,형식 제공
+
+    for i in range(1, file_length):
+        birth_death_df = pd.DataFrame(list(csv.values())[i][0], columns=['type', 'value'])
+        age_df = pd.DataFrame(list(csv.values())[i][1], columns=['type', 'value'])
+
+        birth_death_source = ColumnDataSource(birth_death_df)
+        age_source = ColumnDataSource(age_df)
+        globals()['p{}'.format(i)] = figure(y_range=birth_death_df['type'], title=Title(text='%d년 출생아인구 수 사망자 수'%int(2013+(i-1)),align="center", text_font_size="22px", text_font="Consolas", text_font_style="bold"), height=500, width=500)
+        globals()['p{}'.format(i)].hbar(y='type', right='value', height=0.3, color=Spectral4[1], source=birth_death_source)
+        globals()['p{}'.format(i)].xaxis.formatter = NumeralTickFormatter(format="0.0")
+        globals()['p{}'.format(i)].xaxis.formatter = xformatter
+        globals()['p{}'.format(i)].add_tools(HoverTool(tooltips=[("Type", "@Type"), ("Value", "@value")]))
+        plot_list.append(globals()['p{}'.format(i)]) 
+
+    layout = gridplot([plot_list])
+
+    return json.dumps(json_item(layout, 'pastgraph1'))
+
+
 
 
 if __name__ == "__main__":

@@ -11,6 +11,9 @@
         <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-3.1.0.min.css" type="text/css" />
+        <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-3.1.0.min.js"></script>
+
         <style>
             body {
                 font-family: 'Noto Sans KR', sans-serif;
@@ -91,12 +94,11 @@
                     지금부터 2013년부터 2022년까지 살펴봅시다. 생각은 여러분의 몫입니다.
                 </p>
             </div>
-            <!-- 그래프 넣을 공간; 테스트 -->
-            <div>
-                {{age}}
-
-                
-            </div>
+            <!-- 그래프 넣을 공간 -->
+            <div id="pastgraph1"></div>
+            <script>
+                fetch('/pastgraph1').then(function(response) {return response.json();}).then(function(item){Bokeh.embed.embed_item(item);}) 
+            </script>
         </div>
         <footer class="py-4 bg-light mt-auto footer">
             <div class="container-fluid px-4">
