@@ -200,7 +200,7 @@ def pastgraph1():
         globals()['p{}'.format(i)].add_tools(HoverTool(tooltips=[("Type", "@Type"), ("Value", "@value")]))
         plot_list.append(globals()['p{}'.format(i)]) 
 
-    layout = gridplot([plot_list])
+    layout = gridplot(plot_list, ncols=3)
     script, div = components(layout)
     return json.dumps(json_item(layout, 'pastgraph1'))
     #return render_template("prediction.html", script=script, div=div)
