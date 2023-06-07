@@ -14,7 +14,7 @@
     <body class="sb-nav-fixed aboutfont">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <a class="navbar-brand ps-3" href="{{ url_for('index') }}">
-                <img src="image/logo.png" alt="MON2TOR logo" style="height: 30px; width: auto;">
+                <img src="{{ url_for('static', filename='image/logo.png') }}" alt="MON2TOR logo" style="height: 30px; width: auto;">
                 MON2TOR
             </a>
             <ul class="navbar-nav ms-auto">
@@ -35,11 +35,10 @@
                         <div class="row align-items-center">
                             <div class="col-md-6">
                                 <h3 class="display-4" style="white-space: nowrap;">사용자님의 나이는 <span class="text-primary font-weight-bold" id="userAge"></span>살이군요!</h3>
-                                <!-- Other content -->
+                                {{ descriptions | safe }}
                             </div>
                         </div>
                     </div>
-                    <!-- Other content -->
                 </div>
             </div>
         </main>
@@ -56,9 +55,9 @@
             </div>
         </footer>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="js/scripts.js"></script>
+        <script src="{{ url_for('static', filename='js/datatables-simple-demo.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-        <script src="js/datatables-simple-demo.js"></script>
+        <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
         <script>
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
