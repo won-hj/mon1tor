@@ -30,8 +30,9 @@ def prediction():
     if age is None:
         return render_template('prediction.html')
     
-    news_html = naver_crawling.predict(age)
-    return render_template('prediction.html', table=news_html, age=age)
+    news_descriptions = naver_crawling.predict(age)
+    return render_template('prediction.html', descriptions=news_descriptions, age=age)
+
 
 if __name__ == "__main__":
     app.run()

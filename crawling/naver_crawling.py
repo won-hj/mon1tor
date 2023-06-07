@@ -66,10 +66,9 @@ def predict(age=None):
     if request.method == 'POST':
         age = int(request.form['age'])
     elif request.method == 'GET' and age is not None:
-        # 'age' is already an integer
         pass
     else:
-        return "<h1>Please provide 'age' via POST request or in the URL.</h1>"
+        return "<h1>나이 입력 안했어요.</h1>"
 
     key = None
     if age >= 15 and age < 17:
@@ -87,12 +86,11 @@ def predict(age=None):
     elif age >= 45 and age < 65:
         key =['실버 산업','인구 변화']
 
-    news_all = pd.DataFrame(columns=['PubDate','Title','Link','Description'])
+    news_all = pd.DataFrame(columns=['Title','Link'])
     for k in key:
         search = keyword(k, 5)
         news = info(search)
         basic_clear(news['Title'])
-        basic_clear(news['Description'])
         length = len(news['Title'])-1
 
         for i in range(length):
@@ -102,13 +100,10 @@ def predict(age=None):
 
         for i in range(len(news['Title'])):
             news['Title'].iloc[i] = extract_word(news['Title'].iloc[i])
-            news['Description'].iloc[i] = extract_word(news['Description'].iloc[i])
 
-        news['Link'] = '<a href="'+ news['Link'] + '">링크</a>'
-        news_all = pd.concat([news_all, news])
+        news['Link'] = '<a href="'+ news['Link'] + '">' + news['Title'] + '</a>'
+        news_all = pd.concat([news_all, news[['Link']]])
 
-    news_html = news_all.to_html(escape=False)
-    return news_html
+    links_html = "\n".join(news_all['Link'])
+    return links_html
 
-if __name__ == '__main__':
-    app.run()
