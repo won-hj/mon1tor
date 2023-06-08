@@ -11,15 +11,10 @@
         <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
-        <link
-        href="https://cdn.bokeh.org/bokeh/release/bokeh-2.4.2.min.css"
-        rel="stylesheet" type="text/css">
-    <link
-        href="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.4.2.min.css"
-        rel="stylesheet" type="text/css">
-    <link
-        href="https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.4.2.min.css"
-        rel="stylesheet" type="text/css">
+        <script src="{{ url_for('static', filename='js/bokeh.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/bokeh-widgets.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/bokeh-tables.min.js') }}"></script>
+        
         <style>
             body {
                 font-family: 'Noto Sans KR', sans-serif;
@@ -100,8 +95,10 @@
                     생각은 여러분의 몫입니다.
                 </p>
             </div>
+            <p>
             {{ script|safe }}
-            {{ div|safe }}  <!-- 이 부분은 Bokeh 그래프의 div를 표시합니다. -->
+            {{ div|safe }} 
+            </p>
         </div>
         <footer class="py-4 bg-light mt-auto footer">
             <div class="container-fluid px-4">
@@ -116,11 +113,8 @@
             </div>
         </footer>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/datatables-simple-demo.js') }}"></script>
-        <script src="https://cdn.bokeh.org/bokeh/release/bokeh-2.4.2.min.js"></script>
-    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.4.2.min.js"></script>
-    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.4.2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+        <script src="js/datatables-simple-demo.js"></script>
     </body>
 </html>

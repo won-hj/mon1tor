@@ -10,8 +10,9 @@
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-2.4.2.min.css" type="text/css" />
-        <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-2.4.2.min.js"></script>      
+        <script src="{{ url_for('static', filename='js/bokeh.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/bokeh-widgets.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/bokeh-tables.min.js') }}"></script>     
     </head>
     <body class="sb-nav-fixed aboutfont">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
