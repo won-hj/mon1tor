@@ -2,7 +2,6 @@ import os
 import re
 import sys
 import urllib.request
-from matplotlib import pyplot as plt
 import requests
 import pandas as pd
 import numpy as np
