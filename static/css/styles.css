@@ -10269,6 +10269,9 @@ body {
 .aboutfont{
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 400;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .aboutfont1{
   font-family: 'Noto Sans KR', sans-serif;
@@ -10283,5 +10286,20 @@ body {
 .aboutfont3{
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 600;
-  font-size: 1.3rem
+  font-size: 1.3rem;
+}
+
+.top-content{
+  align-self: center;
+}
+
+.bk-root{
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.middle-content{
+  margin-top:60px;
 }
