@@ -4,10 +4,10 @@
 |   <img width="160px" src="https://avatars.githubusercontent.com/u/74997120?s=400&v=4" />    |                      <img width="160px" src="https://avatars.githubusercontent.com/u/128560356?v=4" />    |                   <img width="160px" src="https://avatars.githubusercontent.com/u/127865678?v=4"/>   |
 |   [@dozzzang](https://github.com/dozzzang)   |    [@won-hj](https://github.com/won-hj)  | [@KimEulJoong](https://github.com/KimEulJoong)  |
 |              컴퓨터공학과2학년                |            컴퓨터공학과3학년              |                 물리학과4학년                             |
-|             sks020k@naver.com                | email                                    |                 kimeuljoong97@gmail.com                           |
+|             sks020k@naver.com                |           won.hyeockju@gmail.com         |                 kimeuljoong97@gmail.com                           |
 
 ## 프로젝트 소개
-2023-1 오픈소스기초프로젝트 강의 프로젝트입니다. '예측'이라는 키워드에 저희가 생각한 주제는 한국의 저출산과 고령화 현상입니다. 한국의 저출산과 고령화 현상은 가속화 되고 있지만, 대중들의 인식은 그 속도를 따라가지 못하는 것에 아쉬움을 느껴 사람들에게 미래의 인구 변화를 체감시켜주고자 만들어졌습니다. 모니터에서는 회원기능과 미래의 인구구조 변화에 대해 그래프를 제공하고, 사용자의 나이에 따른 도움 될 정보를 기사 주소를 통해 제공해줍니다.
+2023-1 오픈소스기초프로젝트 강의 프로젝트입니다. '예측'이라는 키워드에 저희가 생각한 주제는 한국의 저출산과 고령화 현상입니다. 한국의 저출산과 고령화 현상은 가속화 되고 있지만, 대중들의 인식은 그 속도를 따라가지 못하는 것에 아쉬움을 느껴 사람들에게 미래의 인구 변화를 체감시켜주고자 웹이 만들어졌습니다. MON2TOR에서는 회원기능과 미래의 인구구조 변화에 대해 그래프를 제공하고, 사용자의 나이에 따른 도움 될 정보를 기사 주소를 통해 제공해줍니다.
 
 ## 설치 방법
 ``` bash
@@ -53,8 +53,44 @@ app.py로 이동하여 $ python app.py
 웹 페이지 상단 우측을 이용하여 회원가입/로그인/로그아웃 가능
 나이를 입력하면 예측에 대한 링크로 이동가능 아래 나오는 사진을 클릭하면 과거에 대한 링크로 이동가능
 ``` 
+---
+## 주요 기능
+
+### ⭐ 사용자의 나이를 입력
+- 사용자의 나이에 맞는 인구구조와 관련된 키워드의 기사 링크 제공
+- 미래 인구구조에 대한 상호작용 그래프 제공
+
+### ⭐️ 과거와 현재의 인구구조 그래프
+- 미래 뿐만 아니라 과거와 현재의 인구구조 상호작용 그래프 제공
+
+### ⭐️ 회원 기능
+- 회원가입/로그인 기능을 제공하며 (인구구조 예측 그래프를 보고 각자의 의견을 공유할 수 있는 커뮤니티 기능 제공 미구현)
+
+---
 ## License
-MIT일텐데 수정 마지막에 수정
+```
+MIT License
+
+Copyright (c) 2023 Dohyun Kim
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
 ## 아키텍쳐
 ### 디렉토리 구조
 ```
