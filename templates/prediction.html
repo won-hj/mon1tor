@@ -13,12 +13,6 @@
         <script src="{{ url_for('static', filename='js/bokeh.min.js') }}"></script>
         <script src="{{ url_for('static', filename='js/bokeh-widgets.min.js') }}"></script>
         <script src="{{ url_for('static', filename='js/bokeh-tables.min.js') }}"></script>
-        <style>
-            .main-content {
-                margin-left: 15%;
-            }
-        </style>
-        </style>
     </head>
     <body class="sb-nav-fixed aboutfont">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -44,36 +38,39 @@
                     <div class="container">
                         <div class="row align-items-center">
                             <div class="aboutfont">
-                                <h3 class="display-4" style="white-space: nowrap;">사용자님의 나이는 <span class="text-primary font-weight-bold" id="userAge"></span>살이군요!</h3>
-                                <p id="ageText"></p> <!-- ageText 요소 추가 -->
-                                <script>
-                                    document.addEventListener("DOMContentLoaded", function() {
-                                        const urlParams = new URLSearchParams(window.location.search);
-                                        const age = Number(urlParams.get('age'));
-                                    
-                                        if (age) {
-                                            document.getElementById('userAge').textContent = age;
-                                    
-                                            const ageText = document.getElementById('ageText');
-                                            if (age >= 15 && age <= 17) {
-                                                ageText.innerHTML = "중학생이시군요. 반에 학생 수가 줄어드는 것이 느껴지시지 않나요? 위 기사링크를 클릭해보고 아래 그래프를 보며 앞으로 어떻게 될 지 상상해보세요!<br>특히 출생아 수의 감소 폭에 주목해볼만 합니다.<br>아래는 사용자 분에 나이에 맞는 기사 링크입니다!";
-                                            } else if (age > 17 && age <= 19) {
-                                                ageText.innerHTML = "고등학생이시군요. 반에 학생 수가 줄어드는 것이 느껴지시지 않나요? 성인이 되기 전 아래 그래프를 보며 이 주제에 대해 관심 가져보는 것도 좋을 거 같네요!<br>특히 출생아 수의 감소 폭에 주목해볼만 합니다.<br>아래는 사용자 분에 나이에 맞는 기사 링크입니다!";
-                                            } else if (age > 19 && age <= 35) {
-                                                ageText.innerHTML = "아래 그래프를 보고 인구구조의 변화를 체감하셨으면 좋겠습니다. 더 나아가 영감을 얻으시면 좋겠네요.<br>특히 출생아 수의 감소 폭에 주목해볼만 합니다.<br>아래는 사용자 분에 나이에 맞는 기사 링크입니다!"; 
-                                            } else if (age > 35 && age <= 45) {
-                                                ageText.innerHTML = "사용자 분이 종사하시는 생산활동에서 몇 년 후면 구조가 변화할 것이라고 확신합니다!<br>특히 출생아 수의 감소 폭에 주목해볼만 합니다.<br>아래는 사용자 분에 나이에 맞는 기사 링크입니다!";
-                                            } else if (age > 45 && age <= 65) {
-                                                ageText.innerHTML = "고령화 인구에 속하기 전 생각해볼 수 있는 기회를 가질 수 있을겁니다!<br>특히 출생아 수의 감소 폭에 주목해볼만 합니다.<br>아래는 사용자 분에 나이에 맞는 기사 링크입니다!";
+                                <div class = "top-content">
+                                    <h3 class="display-4" style="white-space: nowrap;">사용자님의 나이는 <span class="text-primary font-weight-bold" id="userAge"></span>살이군요!</h3>
+                                    <p id="ageText"></p> <!-- ageText 요소 추가 -->
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            const urlParams = new URLSearchParams(window.location.search);
+                                            const age = Number(urlParams.get('age'));
+                                        
+                                            if (age) {
+                                                document.getElementById('userAge').textContent = age;
+                                        
+                                                const ageText = document.getElementById('ageText');
+                                                if (age >= 15 && age <= 17) {
+                                                    ageText.innerHTML = "중학생이시군요. 반에 학생 수가 줄어드는 것이 느껴지시지 않나요? 위 기사링크를 클릭해보고 아래 그래프를 보며 앞으로 어떻게 될 지 상상해보세요!<br>특히 출생아 수의 감소 폭에 주목해볼만 합니다.<br>아래는 사용자 분에 나이에 맞는 기사 링크입니다!";
+                                                } else if (age > 17 && age <= 19) {
+                                                    ageText.innerHTML = "고등학생이시군요. 반에 학생 수가 줄어드는 것이 느껴지시지 않나요? 성인이 되기 전 아래 그래프를 보며 이 주제에 대해 관심 가져보는 것도 좋을 거 같네요!<br>특히 출생아 수의 감소 폭에 주목해볼만 합니다.<br>아래는 사용자 분에 나이에 맞는 기사 링크입니다!";
+                                                } else if (age > 19 && age <= 35) {
+                                                    ageText.innerHTML = "아래 그래프를 보고 인구구조의 변화를 체감하셨으면 좋겠습니다. 더 나아가 영감을 얻으시면 좋겠네요.<br>특히 출생아 수의 감소 폭에 주목해볼만 합니다.<br>아래는 사용자 분에 나이에 맞는 기사 링크입니다!"; 
+                                                } else if (age > 35 && age <= 45) {
+                                                    ageText.innerHTML = "사용자 분이 종사하시는 생산활동에서 몇 년 후면 구조가 변화할 것이라고 확신합니다!<br>특히 출생아 수의 감소 폭에 주목해볼만 합니다.<br>아래는 사용자 분에 나이에 맞는 기사 링크입니다!";
+                                                } else if (age > 45 && age <= 65) {
+                                                    ageText.innerHTML = "고령화 인구에 속하기 전 생각해볼 수 있는 기회를 가질 수 있을겁니다!<br>특히 출생아 수의 감소 폭에 주목해볼만 합니다.<br>아래는 사용자 분에 나이에 맞는 기사 링크입니다!";
+                                                }
                                             }
-                                        }
-                                    });
-                                </script>
-                                <div>
-                                {{ descriptions | safe }}
+                                        });
+                                    </script>
+                                    <div>
+                                    {{ descriptions | safe }}
+                                    </div>
+
+                                    
+                                    <div class="aboutfont middle-content"><br>그래프와 상호작용 하기!<br> 그래프 막대에 마우스를 올리면 값을 보실 수 있습니다.<br>그래프 오른쪽의 도구들에 마우스를 갖다대면 각각의 기능이 나옵니다.<br>다양한 기능을 이용하여 그래프를 즐겨보세요</div>
                                 </div>
-                                <div class="aboutfont"><br>그래프와 상호작용 하기!<br> 그래프 막대에 마우스를 올리면 값을 보실 수 있습니다.<br>그래프 오른쪽의 도구들에 마우스를 갖다대면 각각의 기능이 나옵니다.<br>다양한 기능을 이용하여 그래프를 즐겨보세요</div>
-                                <p></p>
                                 <div id = "pred2327" class="aboutfont3">2023년부터 2027년의 출생아 수와 사망자수 예측 그래프입니다. </div>
                                 <script>
                                     fetch('/pred2327').then(function(response) {return response.json();}).then(function(item){Bokeh.embed.embed_item(item);}) 
