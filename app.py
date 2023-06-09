@@ -206,12 +206,9 @@ def pastgraph1():
     #return render_template("prediction.html", script=script, div=div)
 
 #13~22년도 pastgraph2
-@app.route('/pastgraph2')
+@app.route('/past_graph2')
 def pastgraph2():
-    from flask import Response
-    #from src import PrintGraph as g
     from past_graph.past_work_nonwork_graph import create_graph as g
-    
     df = pd.read_csv('./tool/work&nonwork_data/2013-2022data.csv')
     df['Year'] = df['Year'].astype(str) 
 
@@ -222,16 +219,8 @@ def pastgraph2():
 
     description = '*대한민국 전체 인구가 100%라고 가정했을 때 비율<br>*지방 중소도시 : 50만 이하의 인구<br>*생산인구 1%당 약 16만명 감소 생산인구로만 구성된 약 1개 중소도시 삭제<br>*고령인구 1%당 약 73만명 증가 고령인구로만 구성된 약 1개 중소도시 생성'
     layout = g(df, columns_titles_colors, description)
-    sys.stderr.write('\ncreate graph: '+str(layout))
-    script, div = components(layout)
-    
-    #return render_template('past_graph2.html', script=script, div=div)
-    return Response(json.dumps(json_item(layout, 'pastgraph2')), mimetype='application/json')
-
-    #branch, mark, year = 'work_nonwork', 'under', 20132022
-    #layout = g.get_plot(branch, mark, year)
-
-    #return json.dumps(json_item(layout, 'pastgraph2')) 
+    script, div = components(layout) 
+    return render_template('past_graph2.html', script=script, div=div)
 
 
 if __name__ == "__main__":
