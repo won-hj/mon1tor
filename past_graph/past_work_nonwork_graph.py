@@ -18,26 +18,27 @@ def create_graph(df, columns_titles_colors, description): #girdplot 구성과 �
     source = ColumnDataSource(df)
     plots = [create_plot(source, column, title, color) for column, title, color in columns_titles_colors]
     grid = gridplot([plots])
-    desc_div = Div(text=description, width=800, height=100, style={"font-family": "Consolas", "font-size": "16px"})
+    desc_div = Div(text=description, width=800, height=100, style = {"font-family": "Consolas", "font-size": "16px"})
     l = layout([
         [grid],
         [desc_div]
     ])
-    return l 
+    return l
 
 
+if __name__ == "__main__":   #추가
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    data_file = os.path.join(current_dir, '../tool/work&nonwork_data/2013-2022data.csv')
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
-data_file = os.path.join(current_dir, '../tool/work&nonwork_data/2013-2022data.csv')
+    df = pd.read_csv(data_file)
+    df['Year'] = df['Year'].astype(str) 
 
-df = pd.read_csv(data_file)
-df['Year'] = df['Year'].astype(str) 
+    columns_titles_colors = [
+        ('work_percent', '생산인구(%):15-64세', Spectral4[1]),
+        ('nonwork_percent', '고령인구(%):65세 이상', Spectral4[2]),
+    ]
 
-columns_titles_colors = [
-    ('work_percent', '생산인구(%):15-64세', Spectral4[1]),
-    ('nonwork_percent', '고령인구(%):65세 이상', Spectral4[2]),
-]
+    description = '*대한민국 전체 인구가 100%라고 가정했을 때 비율<br>*지방 중소도시 : 50만 이하의 인구<br>*생산인구 1%당 약 16만명 감소 생산인구로만 구성된 약 1개 중소도시 삭제<br>*고령인구 1%당 약 73만명 증가 고령인구로만 구성된 약 1개 중소도시 생성'
 
-description = '*대한민국 전체 인구가 100%라고 가정했을 때 비율<br>*지방 중소도시 : 50만 이하의 인구<br>*생산인구 1%당 약 16만명 감소 생산인구로만 구성된 약 1개 중소도시 삭제<br>*고령인구 1%당 약 73만명 증가 고령인구로만 구성된 약 1개 중소도시 생성'
-
-create_graph(df, columns_titles_colors, description)
+    graph = create_graph(df, columns_titles_colors, description)
+   
