@@ -1,0 +1,16 @@
+[Language]
+python>=3.8.1
+[Web Framework]
+Flask>=2.2.2
+[Database]
+Flask-SQLAlchemy>=3.0.3
+[Form Handling]
+Flask-WTF>=1.1.1
+WTForms>=3.0.1
+[Data Visualization]
+bokeh==2.4.2
+[Data Analysis]
+prophet==1.1.2
+pandas>=1.5.3
+[HTTP Requests]
+requests>=2.28.1
