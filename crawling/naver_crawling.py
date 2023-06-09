@@ -103,6 +103,6 @@ def predict(age=None):
         news['Link'] = '<a href="'+ news['Link'] + '">' + news['Title'] + '</a>'
         news_all = pd.concat([news_all, news[['Link']]])
 
-    links_html = "\n".join(news_all['Link'])
+    links_html = "<br>".join(news_all['Link'])
     return links_html
 
