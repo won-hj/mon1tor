@@ -10269,6 +10269,12 @@ body {
 .aboutfont{
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 400;
+<<<<<<< HEAD
+=======
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+>>>>>>> 5ebea2217fd3b0ea07b6b24c8e5c881237125803
 }
 .aboutfont1{
   font-family: 'Noto Sans KR', sans-serif;
@@ -10283,5 +10289,24 @@ body {
 .aboutfont3{
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 600;
+<<<<<<< HEAD
   font-size: 1.3rem
+=======
+  font-size: 1.3rem;
+}
+
+.top-content{
+  align-self: center;
+}
+
+.bk-root{
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.middle-content{
+  margin-top:60px;
+>>>>>>> 5ebea2217fd3b0ea07b6b24c8e5c881237125803
 }
