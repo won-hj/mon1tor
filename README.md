@@ -12,7 +12,7 @@
 ## 설치 방법
 ``` bash
 $ git clone https://github.com/won-hj/mon2tor.git
-$ cd ./MON2TER
+$ cd ./MON2TOR
 pip install bokeh==2.4.2
 pip install flask==2.2.2
 pip install pandas==1.5.3
@@ -31,20 +31,19 @@ pip install holidays==0.10.5.2
 [Language]
 python>=3.8.1
 [Web Framework]
-Flask>=2.2.2
+Flask==2.2.2
 [Database]
-Flask-SQLAlchemy>=3.0.3
+Flask-SQLAlchemy==3.0.3
 [Form Handling]
-Flask-WTF>=1.1.1
-WTForms>=3.0.1
+Flask-WTF==1.1.1
+WTForms==3.0.1
 [Data Visualization]
-bokeh>=2.4.2
+bokeh==2.4.2
 [Data Analysis]
-prophet>=1.1.2
-pandas>=1.5.3
-numpy>=1.23.5
+prophet==1.1.2
+pandas==1.5.3
 [HTTP Requests]
-requests>=2.28.1
+requests==2.28.1
 ```
 ## 사용 방법
 ``` 
@@ -101,6 +100,8 @@ SOFTWARE.
 |   form.py : 비밀번호 유효성 검사
 |   Models.py : DB구성,비밀번호해싱
 |   README.md
+|   LICENSE
+|   dave_server.log
 |
 +---config : 서버에 넘길 파일과 데이터베이스 관련 폴더
 |   |   config.ini
