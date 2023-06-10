@@ -100,7 +100,7 @@ def predict(age=None):
         for i in range(len(news['Title'])):
             news['Title'].iloc[i] = extract_word(news['Title'].iloc[i])
 
-        news['Link'] = '<a href="'+ news['Link'] + '">' + news['Title'] + '</a>'
+        news['Link'] = '<li><a href="'+ news['Link'] + '">' + news['Title'] + '</a></li>' # 리스트 형태를 만들기 위해 <li>추기장
         news_all = pd.concat([news_all, news[['Link']]])
 
     links_html = "<br>".join(news_all['Link'])

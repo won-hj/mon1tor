@@ -96,10 +96,12 @@
                     생각은 여러분의 몫입니다.
                 </p>
             </div>
-            <p>
-            {{ script|safe }}
-            {{ div|safe }} 
-            </p>
+          <!-- 그래프 넣을 공간 -->
+          <div id="pastgraph2"></div>
+          <script>
+              fetch('/pastgraph2').then(function(response) {return response.json();}).then(function(item){Bokeh.embed.embed_item(item);}) 
+          </script>
+        
         </div>
         <footer class="py-4 bg-light mt-auto footer">
             <div class="container-fluid px-4">

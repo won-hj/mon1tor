@@ -26,6 +26,21 @@ from crawling import naver_crawling
 import os
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key'
+
+if not app.debug: 
+    # 즉 debug=true면 이는 false로서 아래 함수가 돌아간다.
+    # 실제 상용화단계에서 로깅을 진행해라는 의미이다
+    import logging
+    from logging.handlers import RotatingFileHandler  
+    # logging 핸들러에서 사용할 핸들러를 불러온다.
+    file_handler = RotatingFileHandler(
+        'dave_server.log', maxBytes=2000, backupCount=10)
+    file_handler.setLevel(logging.CRITICAL)  
+    # 어느 단계까지 로깅을 할지를 적어줌
+    # app.logger.addHandler() 에 등록시켜줘야 app.logger 로 사용 가능
+    app.logger.addHandler(file_handler)
+ 
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -206,7 +221,7 @@ def pastgraph1():
     #return render_template("prediction.html", script=script, div=div)
 
 #13~22년도 pastgraph2
-@app.route('/past_graph2')
+@app.route('/pastgraph2')
 def pastgraph2():
     from past_graph.past_work_nonwork_graph import create_graph as g
     df = pd.read_csv('./tool/work&nonwork_data/2013-2022data.csv')
@@ -218,10 +233,8 @@ def pastgraph2():
     ]
 
     description = '*대한민국 전체 인구가 100%라고 가정했을 때 비율<br>*지방 중소도시 : 50만 이하의 인구<br>*생산인구 1%당 약 16만명 감소 생산인구로만 구성된 약 1개 중소도시 삭제<br>*고령인구 1%당 약 73만명 증가 고령인구로만 구성된 약 1개 중소도시 생성'
-    layout = g(df, columns_titles_colors, description)
-    script, div = components(layout) 
-    return render_template('past_graph2.html', script=script, div=div)
-
+    layout = g(df, columns_titles_colors, description) 
+    return json.dumps(json_item(layout, 'pastgraph2'))
 
 if __name__ == "__main__":
     app.run(debug=True)
