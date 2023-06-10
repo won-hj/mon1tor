@@ -12,7 +12,7 @@
 ## 설치 방법
 ``` bash
 $ git clone https://github.com/won-hj/mon2tor.git
-$ cd MON2TER
+$ cd ./MON2TER
 pip install bokeh==2.4.2
 pip install flask==2.2.2
 pip install pandas==1.5.3
@@ -71,7 +71,7 @@ app.py로 이동하여 $ python app.py
 ```
 MIT License
 
-Copyright (c) 2023 Dohyun Kim
+Copyright (c) 2023 MON2TOR
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
