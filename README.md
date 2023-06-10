@@ -2,9 +2,9 @@
 |      김도현       |          원혁주         |       김을중         |                                                                                                               
 | :------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | 
 |   <img width="160px" src="https://avatars.githubusercontent.com/u/74997120?s=400&v=4" />    |                      <img width="160px" src="https://avatars.githubusercontent.com/u/128560356?v=4" />    |                   <img width="160px" src="https://avatars.githubusercontent.com/u/127865678?v=4"/>   |
-|   [@dozzzang](https://github.com/dozzzang)   |    [@won-hj](https://github.com/won-hj)  | [@KimEulJoong](https://github.com/KimEulJoong)  |
+|   [@dozzzang](https://github.com/dozzzang)   |    [@won-hj, @1hjwon](https://github.com/won-hj)  | [@KimEulJoong](https://github.com/KimEulJoong)  |
 |              컴퓨터공학과2학년                |            컴퓨터공학과3학년              |                 물리학과4학년                             |
-|             sks020k@naver.com                |           won.hyeockju@gmail.com         |                 kimeuljoong97@gmail.com                           |
+|             sks020k@naver.com                |           won.hyeockju@gmail.com, whjbssc@gmail.com         |                 kimeuljoong97@gmail.com                           |                                           
 
 ## 프로젝트 소개
 2023-1 오픈소스기초프로젝트 강의 프로젝트입니다. '예측'이라는 키워드에 저희가 생각한 주제는 한국의 저출산과 고령화 현상입니다. 한국의 저출산과 고령화 현상은 가속화 되고 있지만, 대중들의 인식은 그 속도를 따라가지 못하는 것에 아쉬움을 느껴 사람들에게 미래의 인구 변화를 체감시켜주고자 웹이 만들어졌습니다. MON2TOR에서는 회원기능과 미래의 인구구조 변화에 대해 그래프를 제공하고, 사용자의 나이에 따른 도움 될 정보를 기사 주소를 통해 제공해줍니다.
